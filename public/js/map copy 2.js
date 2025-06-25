@@ -1,0 +1,44 @@
+const Map = ol.Map;
+const { fromLonLat, transformExtent } = ol.proj;
+const View = ol.View;
+const WKB = ol.format.WKB;
+const TileLayer = ol.layer.Tile;
+const VectorLayer = ol.layer.Vector;
+const OSM = ol.source.OSM;
+const VectorSource = ol.source.Vector;
+
+proj4.defs(
+    "EPSG:23836",
+    "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs"
+);
+ol.proj.proj4.register(proj4);
+
+const raster = new TileLayer({
+    source: new OSM(),
+});
+
+const wkb =
+    "01060000A01C5D0000010000000103000080010000000E0000003D9883BE13820041559DC306046F2541000000000000000029FAB537EE810041BFE3AEAB006F25410000000000000000EA2D7E149F810041E0047339D66E254100000000000000006E762E69988100411C5D3F63D26E254100000000000000006667989D8F81004138E40115D36E25410000000000000000855CF7C97F810041E9BAD04BD36E25410000000000000000D8F2DA11A7800041368EFB30C56E2541000000000000000013DD69F82D800041CD32AA27B26E25410000000000000000AD417409A67F0041F5447454BC6E25410000000000000000CDFACF901E80004117D20221106F254100000000000000004A89D4D1868000419B5A6313066F2541000000000000000064BF2A6FAE8000413021F2851A6F2541000000000000000085AEFEED1B820041513206D9236F254100000000000000003D9883BE13820041559DC306046F25410000000000000000";
+
+const format = new WKB();
+
+const feature = format.readFeature(wkb, {
+    dataProjection: "EPSG:23836",
+    featureProjection: "EPSG:3857",
+});
+
+const vector = new VectorLayer({
+    source: new VectorSource({
+        features: [feature],
+    }),
+});
+
+const map = new Map({
+    layers: [raster, vector],
+    target: "map",
+    view: new View({
+        projection: "EPSG:3857",
+        center: fromLonLat([111.91307902336122, -7.213898192491574]),
+        zoom: 17,
+    }),
+});

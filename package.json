@@ -1,0 +1,26 @@
+{
+    "name": "tw",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "npx @tailwindcss/cli -i ./src/css/input.css -o ./public/css/style.css --watch",
+        "build": "npx @tailwindcss/cli -i ./src/css/input.css -o ./public/css/style.css --minify"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tailwindcss/forms": "^0.5.9",
+        "@tailwindcss/postcss": "^4.1.10",
+        "@tailwindcss/typography": "^0.5.15",
+        "postcss": "^8.4.49",
+        "tailwindcss": "^4.1.10"
+    },
+    "dependencies": {
+        "@tailwindcss/container-queries": "^0.1.1",
+        "ol": "^10.5.0"
+    }
+}
