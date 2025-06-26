@@ -76,11 +76,10 @@ This project is an interactive web mapping application designed to visualize lan
     This application uses Tailwind CSS for styling. You need to compile the CSS file from its source.
 
         -   For development (with automatic watch mode):
-            ```bash
             npm run dev
-            ```
+            
         -   For production (files will be minified):
-            `bash
+            npm run build
 
     npm run build
     `        These commands will take the source file from`src/css/input.css`and generate the output to`public/css/style.css`.
