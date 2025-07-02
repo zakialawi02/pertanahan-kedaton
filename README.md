@@ -81,31 +81,8 @@ This project is an interactive web mapping application designed to visualize lan
         -   For production (files will be minified):
             npm run build
 
-    npm run build
-    `        These commands will take the source file from`src/css/input.css`and generate the output to`public/css/style.css`.
+    These commands will take the source file from `src/css/input.css` and generate the output to`public/css/style.css`.
 
 5.  **Run the Application**
-    -   Point your web server's document root to the `public/` directory.
-    -   Open the application in your browser (e.g., `http://localhost/`).
-
-## File Structure
-
-.
-
-├── public/ # Publicly accessible files (web root)
-│ ├── action/
-│ │ ├── db_connect.php # Database connection script
-│ │ └── getPercil.php # API endpoint to fetch parcel data
-│ ├── css/
-│ │ └── style.css # Compiled CSS file
-│ ├── js/
-│ │ └── map.js # Main JavaScript logic for the OpenLayers map
-│ └── index.php # Main application page
-├── src/
-│ └── css/
-│ └── input.css # Source file for Tailwind CSS
-├── .gitignore # Files and folders ignored by Git
-├── package.json # Frontend dependencies and scripts
-├── package-lock.json
-├── postcss.config.js # PostCSS configuration
-└── README.md # This file
+    -   Point your web server's document root to the `public/` or `pertanahan-kedaton/public/` directory.
+    -   Open the application in your browser (e.g., `http://localhost/` or `http://localhost/pertanahan-kedaton/public/`).
