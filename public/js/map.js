@@ -5,42 +5,19 @@ const VectorLayer = ol.layer.Vector;
 const VectorSource = ol.source.Vector;
 const Feature = ol.Feature;
 const { OSM, BingMaps, XYZ, ImageTile } = ol.source;
-const {
-    fromLonLat,
-    transformExtent,
-    toLonLat,
-    Projection,
-    useGeographic,
-    getProjection,
-    getTransform,
-    addCoordinateTransforms,
-    addProjection,
-    transform,
-} = ol.proj;
+const { fromLonLat, transformExtent, toLonLat, Projection, useGeographic, getProjection, getTransform, addCoordinateTransforms, addProjection, transform } = ol.proj;
 const Layer = ol.layer.WebGLTile;
 const Source = ol.source.ImageTile;
 const LayerGroup = ol.layer.Group;
 const Overlay = ol.Overlay;
 const { GeoJSON, KML, WKB } = ol.format;
 const { Point, Circle, LineString, Polygon } = ol.geom;
-const {
-    Circle: CircleStyle,
-    Style,
-    Fill,
-    Stroke,
-    Text,
-    IconImage,
-    RegularShape,
-    Icon,
-} = ol.style;
+const { Circle: CircleStyle, Style, Fill, Stroke, Text, IconImage, RegularShape, Icon } = ol.style;
 const { Attribution, OverviewMap, ScaleLine, MousePosition } = ol.control;
 const { register } = ol.proj.proj4;
 const { toStringHDMS, toStringXY } = ol.coordinate;
 
-proj4.defs(
-    "EPSG:23836",
-    "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs"
-);
+proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs");
 register(proj4);
 
 // BaseMap
@@ -63,8 +40,7 @@ const bingAerialBaseMap = new TileLayer({
     visible: true,
 });
 
-const mapboxBaseURL =
-    "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw";
+const mapboxBaseURL = "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw";
 const mapboxStyleId = "mapbox/streets-v11";
 const mapboxSource = new XYZ({
     url: mapboxBaseURL.replace("{id}", mapboxStyleId),
@@ -78,12 +54,8 @@ const mapboxBaseMap = new TileLayer({
 
 const esriMap = new TileLayer({
     source: new Source({
-        attributions:
-            'Tiles © <a href="https://services.arcgisonline.com/ArcGIS/' +
-            'rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
-        url:
-            "https://server.arcgisonline.com/ArcGIS/rest/services/" +
-            "World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+        attributions: 'Tiles © <a href="https://services.arcgisonline.com/ArcGIS/' + 'rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
+        url: "https://server.arcgisonline.com/ArcGIS/rest/services/" + "World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
     }),
     crossOrigin: "anonymous",
     visible: false,
@@ -139,14 +111,9 @@ const zoomControl = new ol.control.Zoom({
 const mousePositionControl = new MousePosition({
     target: document.getElementById("mousePosition"),
     coordinateFormat: function (coordinate) {
-        const { formattedLon, formattedLat } = coordinateFormatIndo(
-            coordinate,
-            "dd"
-        );
+        const { formattedLon, formattedLat } = coordinateFormatIndo(coordinate, "dd");
 
-        return (
-            "Long: " + formattedLon + " &nbsp&nbsp&nbsp  Lat: " + formattedLat
-        );
+        return "Long: " + formattedLon + " &nbsp&nbsp&nbsp  Lat: " + formattedLat;
     },
     projection: "EPSG:4326",
     placeholder: "Long: - &nbsp&nbsp&nbsp  Lat: -",
@@ -176,10 +143,7 @@ function coordinateFormatIndo(coordinate, format = "dd") {
             const absoluteCoord = Math.abs(coord);
             const degrees = Math.floor(absoluteCoord);
             const minutes = Math.floor((absoluteCoord - degrees) * 60);
-            const seconds = (
-                (absoluteCoord - degrees - minutes / 60) *
-                3600
-            ).toFixed(2);
+            const seconds = ((absoluteCoord - degrees - minutes / 60) * 3600).toFixed(2);
             return `${degrees}° ${minutes}' ${seconds}" ${direction}`;
         };
         const formattedLon = convertToDMS(lon, lonDirection);
@@ -217,13 +181,7 @@ const map = new Map({
 
     view: view,
 
-    controls: [
-        zoomControl,
-        scaleControl,
-        overviewMapControl,
-        attribution,
-        mousePositionControl,
-    ],
+    controls: [zoomControl, scaleControl, overviewMapControl, attribution, mousePositionControl],
 });
 
 map.getViewport().style.cursor = "grab";
@@ -239,8 +197,7 @@ window.addEventListener("resize", () => {
 });
 
 function setBasemap(mapType, element = null) {
-    document.getElementById("active-basemap").src =
-        element?.nextElementSibling?.src ?? element?.querySelector("img")?.src;
+    document.getElementById("active-basemap").src = element?.nextElementSibling?.src ?? element?.querySelector("img")?.src;
     if (mapType === "osm") {
         setOsmBasemap();
     } else if (mapType === "bing") {
@@ -261,14 +218,10 @@ function toggleOptions() {
 function initBasemap() {
     const savedBasemap = localStorage.getItem("basemap");
     if (savedBasemap) {
-        const element = document.querySelector(
-            `input[name='basemap'][value='${savedBasemap}']`
-        ).parentElement;
+        const element = document.querySelector(`input[name='basemap'][value='${savedBasemap}']`).parentElement;
         setBasemap(savedBasemap, element);
     } else {
-        const checkedInput = document.querySelector(
-            "input[name='basemap']:checked"
-        );
+        const checkedInput = document.querySelector("input[name='basemap']:checked");
         setBasemap(checkedInput.value, checkedInput.parentElement);
     }
 }
@@ -364,6 +317,37 @@ const selectedStyle = new Style({
         width: 2,
     }),
 });
+// color map by blok
+const blokColors = {
+    1: "rgba(255, 99, 132, 0.5)",
+    2: "rgba(54, 162, 235, 0.5)",
+    3: "rgba(75, 192, 192, 0.5)",
+    4: "rgba(255, 206, 86, 0.5)",
+    5: "rgba(153, 102, 255, 0.5)",
+    6: "rgba(255, 159, 64, 0.5)",
+    7: "rgba(100, 255, 100, 0.5)",
+    8: "rgba(200, 100, 200, 0.5)",
+    9: "rgba(100, 100, 255, 0.5)",
+    "-": "rgba(255, 0, 0, 0.5)",
+    default: "rgba(255, 0, 0, 0.5)",
+};
+function getBlokColor(blok) {
+    return blokColors[blok] || blokColors["default"];
+}
+const getPolygonStyle = (feature) => {
+    const blok = feature.get("blok");
+    if (!blokVisibility[blok]) return null;
+    const fillColor = getBlokColor(blok);
+    return new Style({
+        stroke: new Stroke({
+            color: "#333",
+            width: 1,
+        }),
+        fill: new Fill({
+            color: fillColor,
+        }),
+    });
+};
 
 const drawingRunning = false;
 
@@ -383,7 +367,7 @@ const getStyle = (feature) => {
     } else if (type === "LineString") {
         return lineStyle;
     } else if (type === "Polygon" || type === "MultiPolygon") {
-        return polygonStyle;
+        return getPolygonStyle(feature);
     }
     return null;
 };
@@ -464,10 +448,7 @@ function eventClickMap(evt) {
     // Get Coordinate
     const coordinate = evt.coordinate;
     const LonLatcoordinate = toLonLat(coordinate, projection);
-    const { formattedLon, formattedLat } = coordinateFormatIndo(
-        LonLatcoordinate,
-        "dms"
-    );
+    const { formattedLon, formattedLat } = coordinateFormatIndo(LonLatcoordinate, "dms");
     const hdmsCoordinate = `${formattedLon} &nbsp ${formattedLat}`;
 
     // Reset style semua feature ke default
@@ -503,10 +484,7 @@ function eventClickMap(evt) {
 
                 tableContent += `
                 <tr class="border-b">
-                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">${key.replace(
-                        /_/g,
-                        " "
-                    )}</th>
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">${key.replace(/_/g, " ")}</th>
                     <td class="px-2 py-1">${value || "-"}</td>
                 </tr>
             `;
@@ -546,62 +524,120 @@ const vectorLayerPercil = new VectorLayer({
 
 const format = new WKB();
 
-const getPercil = async () => {
-    const response = await fetch("action/getPercil.php");
+const getPercil = async (agama = "", tipeHak = "") => {
+    const response = await fetch(`action/getPercil.php?agama=${agama}&tipeHak=${tipeHak}`);
     const data = await response.json();
     return data;
 };
 
-let features = [];
-const dataPercil = getPercil()
-    .then((data) => {
-        // console.log(data);
-        data.forEach((item) => {
-            try {
-                const arrayBuffer = hexToArrayBuffer(item.Geometry);
-                const feature = format.readFeature(arrayBuffer, {
-                    dataProjection: "EPSG:23836",
-                    featureProjection: "EPSG:3857",
-                });
-                feature.setProperties({
-                    blok: item["Blok"] || "-",
-                    nama_pemilik: item["Nama Pemilik"] || "-",
-                    nama_wajib_pajak: item["Nama Wajib Pajak"] || "-",
-                    tanggal_lahir: item["Tanggal Lahir"] || "-",
-                    tanggal_lahir_wp: item["Tanggal Lahir WP"] || "-",
-                    pekerjaan: item["Pekerjaan"] || "-",
-                    pekerjaan_wp: item["Pekerjaan WP"] || "-",
-                    agama: item["Agama"] || "-",
-                    alamat: item["Alamat"] || "-",
-                    alamat_wp: item["Alamat WP"] || "-",
-                    "kelurahan/desa": item["Desa"] || null,
-                    kecamatan: item["Kecamatan"] || null,
-                    kabupaten: item["Kabupaten"] || null,
-                    provinsi: item["Provinsi"] || null,
-                    penggunaan: item["Penggunaan"] || "-",
-                    nib: item["NIB"] || "-",
-                    nik: item["NIK"] || "-",
-                    nik_wp: item["NIK WP"] || "-",
-                    tahun_perolehan: item["Tahun Perolehan"] || "-",
-                    tanggal_berkas: item["Tanggal Berkas"] || "-",
-                    tahun_sptt: item["Tahun SPPT"] || "-",
-                    luas: item["Luas"] || "-",
-                    tipe_hak: item["Tipe Hak"] || "-",
-                    nop: item["NOP"] || "-",
-                    njop: item["NJOP"] || "-",
-                    bukti_perolehan: item["Buti Perolehan"],
-                    dasar_perolehan: item["Dasar Perolehan"],
-                });
+let blokVisibility = {};
 
-                vectorSourcePercil.addFeature(feature);
-                features.push(feature);
-            } catch (error) {
-                console.error("Gagal memproses WKB:", error);
+let features = [];
+async function loadPercilData(agama = "", tipeHak = "") {
+    vectorSourcePercil.clear();
+    closePropertyPanel();
+    blokVisibility = {}; // reset blok toggle
+
+    const data = await getPercil(agama, tipeHak);
+
+    data.forEach((item) => {
+        try {
+            const blok = item["Blok"] || "default";
+
+            if (!(blok in blokVisibility)) {
+                blokVisibility[blok] = true;
             }
-        });
-        map.addLayer(vectorLayerPercil);
-    })
-    .catch((error) => {
-        console.error("Gagal memuat data percil:", error);
-        alert("Gagal memuat data percil");
+
+            const arrayBuffer = hexToArrayBuffer(item.Geometry);
+            const feature = format.readFeature(arrayBuffer, {
+                dataProjection: "EPSG:23836",
+                featureProjection: "EPSG:3857",
+            });
+            feature.setProperties({
+                blok: item["Blok"] || "-",
+                nama_pemilik: item["Nama Pemilik"] || "-",
+                nama_wajib_pajak: item["Nama Wajib Pajak"] || "-",
+                tanggal_lahir: item["Tanggal Lahir"] || "-",
+                tanggal_lahir_wp: item["Tanggal Lahir WP"] || "-",
+                pekerjaan: item["Pekerjaan"] || "-",
+                pekerjaan_wp: item["Pekerjaan WP"] || "-",
+                agama: item["Agama"] || "-",
+                alamat: item["Alamat"] || "-",
+                alamat_wp: item["Alamat WP"] || "-",
+                "kelurahan/desa": item["Desa"] || null,
+                kecamatan: item["Kecamatan"] || null,
+                kabupaten: item["Kabupaten"] || null,
+                provinsi: item["Provinsi"] || null,
+                penggunaan: item["Penggunaan"] || "-",
+                nib: item["NIB"] || "-",
+                nik: item["NIK"] || "-",
+                nik_wp: item["NIK WP"] || "-",
+                tahun_perolehan: item["Tahun Perolehan"] || "-",
+                tanggal_berkas: item["Tanggal Berkas"] || "-",
+                tahun_sptt: item["Tahun SPPT"] || "-",
+                luas: item["Luas"] || "-",
+                tipe_hak: item["Tipe Hak"] || "-",
+                nop: item["NOP"] || "-",
+                njop: item["NJOP"] || "-",
+                bukti_perolehan: item["Buti Perolehan"],
+                dasar_perolehan: item["Dasar Perolehan"],
+            });
+
+            vectorSourcePercil.addFeature(feature);
+        } catch (error) {
+            console.error("Gagal memproses WKB:", error);
+        }
     });
+
+    generateBlokToggle();
+    map.addLayer(vectorLayerPercil);
+}
+
+loadPercilData();
+
+function generateBlokToggle() {
+    let html = "";
+    Object.keys(blokVisibility).forEach((blok) => {
+        html += `
+        <label class="p-1 block">
+          <input type="checkbox" class="blok-toggle" data-blok="${blok}" checked>
+          Blok ${blok}
+        </label>
+    `;
+    });
+    $("#layerPanelContent>div:last-child").html(html);
+}
+
+$("body").on("change", ".blok-toggle", function () {
+    const blok = $(this).data("blok");
+    blokVisibility[blok] = $(this).is(":checked");
+    // console.log("Blok", blok, "status:", blokVisibility[blok]); // cek trigger
+    vectorSourcePercil.getFeatures().forEach((f) => f.setStyle(getStyle(f)));
+});
+
+$("#applyFilterBtn").click(async function () {
+    const agama = $("#filterAgama").val();
+    const tipeHak = $("#filterTipeHak").val();
+    // Panggil ulang data dengan filter parameter
+    await loadPercilData(agama, tipeHak);
+});
+
+function togglePanel(panelId, toggleButton) {
+    const panel = $("#" + panelId);
+    panel.toggleClass("hidden");
+    $(toggleButton).toggleClass("active");
+    panel
+        .find("button.close-panel")
+        .off("click")
+        .on("click", function () {
+            panel.addClass("hidden");
+            $(toggleButton).removeClass("active");
+        });
+}
+
+$("#search-toggle").click(function (e) {
+    togglePanel("searchPanel", this);
+});
+$("#layer-toggle").click(function (e) {
+    togglePanel("layerPanel", this);
+});

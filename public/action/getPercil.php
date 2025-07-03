@@ -4,6 +4,32 @@ include 'db_connect.php';
 
 // jika request method get biasa
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $blokFilter = '';
+    if (isset($_GET['blok']) && !empty($_GET['blok'])) {
+        $blok = $_GET['blok'];
+        $blokFilter = ' AND WajibPajak."Blok" = \'' . $blok . '\'';
+    }
+    // Filter Agama
+    $agamaFilter = '';
+    if (isset($_GET['agama'])) {
+        $agama = $_GET['agama'];
+        if ($agama === 'null') {
+            $agamaFilter = ' AND AgamaPemilik."Nama_Agama" IS NULL';
+        } elseif (!empty($agama)) {
+            $agamaFilter = ' AND AgamaPemilik."Nama_Agama" = \'' . $agama . '\'';
+        }
+    }
+    // Filter Tipe Hak
+    $tipeHakFilter = '';
+    if (isset($_GET['tipeHak'])) {
+        $tipeHak = $_GET['tipeHak'];
+        if ($tipeHak === 'null') {
+            $tipeHakFilter = ' AND TipeHak."Nama_TipeHak" IS NULL';
+        } elseif (!empty($tipeHak)) {
+            $tipeHakFilter = ' AND TipeHak."Nama_TipeHak" = \'' . $tipeHak . '\'';
+        }
+    }
+
     $query = '
         SELECT
             BidangTanah."Id_Bidang",
@@ -56,25 +82,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         LEFT JOIN "Agama" AgamaPemilik ON OrangPemilik."Agama" = AgamaPemilik."Id_Agama"
         LEFT JOIN "Agama" AgamaWP ON OrangWP."Agama" = AgamaWP."Id_Agama"
         WHERE BidangTanah."Id_Bidang" IS NOT NULL
+        ' . $blokFilter . $agamaFilter . $tipeHakFilter . '
         ORDER BY BidangTanah."Id_Bidang" ASC
-';
+    ';
 
-// Eksekusi query
-$result = pg_query($dbconn, $query);
+    // Eksekusi query
+    $result = pg_query($dbconn, $query);
 
-$resultDB = [];
+    $resultDB = [];
 
-if (pg_num_rows($result) > 0) {
-    while ($row = pg_fetch_assoc($result)) {
-        $resultDB[] = $row;
+    if (pg_num_rows($result) > 0) {
+        while ($row = pg_fetch_assoc($result)) {
+            $resultDB[] = $row;
+        }
     }
-}
 
-// Contoh output hasilnya
-header('Content-Type: application/json');
-echo json_encode($resultDB, JSON_PRETTY_PRINT);
+    // Contoh output hasilnya
+    header('Content-Type: application/json');
+    echo json_encode($resultDB, JSON_PRETTY_PRINT);
 
-// Tutup koneksi
-pg_close($dbconn);
+    // Tutup koneksi
+    pg_close($dbconn);
 }
-?>

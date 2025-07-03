@@ -356,3 +356,7 @@
 .trigger-basemap {
     cursor: pointer;
 }
+
+#side-nav-panel button.active {
+    @apply text-accent;
+}
