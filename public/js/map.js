@@ -621,7 +621,29 @@ $("#applyFilterBtn").click(async function () {
     // Panggil ulang data dengan filter parameter
     await loadPercilData(agama, tipeHak);
 });
+$("#searchButton").click(function () {
+    closePropertyPanel();
+    const field = $("#searchField").val();
+    const keyword = $("#searchInput").val().toLowerCase();
+    if (keyword === "") {
+        vectorSourcePercil.getFeatures().forEach((f) => {
+            f.setStyle(getStyle(f));
+        });
+        return;
+    }
+    // reset dulu highlight/style kalau perlu
+    vectorSourcePercil.getFeatures().forEach((f) => {
+        f.setStyle(getStyle(f));
+    });
 
+    // looping cari match
+    vectorSourcePercil.getFeatures().forEach((feature) => {
+        const value = (feature.get(field) || "").toString().toLowerCase();
+        if (value.includes(keyword)) {
+            feature.setStyle(selectedStyle);
+        }
+    });
+});
 function togglePanel(panelId, toggleButton) {
     const panel = $("#" + panelId);
     panel.toggleClass("hidden");

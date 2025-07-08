@@ -236,17 +236,30 @@
     </div>
 
     <!-- Search Panel -->
-    <div id="searchPanel" class="hidden z-21 left-panel flex shrink-0 grow-0 justify-around gap-2 py-2 border-t border-gray-200 bg-white p-1 shadow-lg backdrop-blur-lg fixed top-1/6 -translate-y-2/4 left-2 min-h-[auto] min-w-64 flex-col rounded-lg border h-18">
-        <div class="px-3 py-1 gap-2 flex items-center justify-between">
-            <input type="search" id="search-input-panel" class="w-full px-1.5 py-1 border rounded-md" placeholder="Cari nama bidang..." />
+    <div id="searchPanel" class="hidden z-21 left-panel flex flex-col gap-2 py-2 border-t border-gray-200 bg-white p-2 shadow-lg backdrop-blur-lg fixed top-1/5 -translate-y-2/4 left-2 min-h-[auto] min-w-64 rounded-lg border">
+        <div class="px-3 py-1 flex items-center justify-between">
+            <p class="font-semibold">Pencarian Data</p>
             <button class="text-sm font-extrabold close-panel hover:opacity-80">✕</button>
         </div>
+
+        <div class="relative flex items-center">
+            <select id="searchField" class="absolute left-0 h-full border-r border-gray-300 text-xs rounded-l-md px-2 w-30 bg-white">
+                <option value="nama_pemilik">Nama Pemilik</option>
+                <option value="nama_wajib_pajak" class="truncate">nama wajib pajak</option>
+                <option value="nib">NIB</option>
+                <option value="nop">NOP</option>
+            </select>
+            <input type="search" id="searchInput" class="w-full pl-32 pr-3 py-2 border text-sm rounded-md focus:outline-none focus:border-gray-400" placeholder="Ketik kata kunci..." />
+        </div>
+        <button id="searchButton" class="mt-1 px-1.5 py-1 bg-primary text-white text-sm rounded hover:bg-primary/75">Cari</button>
     </div>
+
+
 
     <!-- Layer Panel -->
     <div id="layerPanel" class="hidden left-panel fixed top-1/2 left-18 -translate-y-1/2 bg-white border rounded-lg min-w-80 min-h-20 shadow-2xl z-19 max-h-[70vh]">
         <div class="px-3 border-b py-1 flex items-center justify-between">
-            <p class="font-semibold">Layer Panel</p>
+            <p class="font-semibold">Panel Layer</p>
             <button class="text-sm font-extrabold close-panel hover:opacity-80">✕</button>
         </div>
         <div id="layerPanelContent" class="p-4 text-sm text-gray-700 space-y-2 overflow-y-auto max-h-[64vh]">
