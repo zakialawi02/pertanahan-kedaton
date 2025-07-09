@@ -149,6 +149,14 @@
         </button>
     </nav>
 
+    <!-- Alert Info -->
+    <div id="alert-info" class="fixed inset-x-0 top-20 md:top-10 mx-auto w-fit z-50 hidden opacity-0 -translate-y-5 transition-all duration-500">
+        <div id="alert-box" class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm shadow-lg ring-1">
+            <svg id="alert-icon" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"></svg>
+            <span id="alert-message"></span>
+        </div>
+    </div>
+
     <div class="map h-[calc(100vh-64px)]" id="map"></div>
 
     <div class="" id="topLeft"></div>
@@ -236,11 +244,22 @@
     </div>
 
     <!-- Search Panel -->
-    <div id="searchPanel" class="hidden z-21 left-panel flex shrink-0 grow-0 justify-around gap-2 py-2 border-t border-gray-200 bg-white p-1 shadow-lg backdrop-blur-lg fixed top-1/6 -translate-y-2/4 left-2 min-h-[auto] min-w-64 flex-col rounded-lg border h-18">
-        <div class="px-3 py-1 gap-2 flex items-center justify-between">
-            <input type="search" id="search-input-panel" class="w-full px-1.5 py-1 border rounded-md" placeholder="Cari nama bidang..." />
+    <div id="searchPanel" class="hidden z-21 left-panel flex flex-col gap-2 py-2 border-t border-gray-200 bg-white p-2 shadow-lg backdrop-blur-lg fixed top-1/5 -translate-y-2/4 left-2 min-h-[auto] min-w-64 rounded-lg border">
+        <div class="px-3 py-1 flex items-center justify-between">
+            <p class="font-semibold">Pencarian Data</p>
             <button class="text-sm font-extrabold close-panel hover:opacity-80">✕</button>
         </div>
+
+        <div class="relative flex items-center">
+            <select id="searchField" class="absolute left-0 h-full border-r border-gray-300 text-xs rounded-l-md px-2 w-30 bg-white">
+                <option value="nama_pemilik">Nama Pemilik</option>
+                <option value="nama_wajib_pajak" class="truncate">nama wajib pajak</option>
+                <option value="nib">NIB</option>
+                <option value="nop">NOP</option>
+            </select>
+            <input type="search" id="searchInput" class="w-full pl-32 pr-3 py-2 border text-sm rounded-md focus:outline-none focus:border-gray-400" placeholder="Ketik kata kunci..." />
+        </div>
+        <button id="searchButton" class="mt-1 px-1.5 py-1 bg-primary text-white text-sm rounded hover:bg-primary/75">Cari</button>
     </div>
 
     <!-- Layer Panel -->
@@ -300,6 +319,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
 
+    <script src="./js/scripts.js"></script>
     <script src="./js/map.js"></script>
 </body>
 

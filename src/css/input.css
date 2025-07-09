@@ -358,5 +358,5 @@
 }
 
 #side-nav-panel button.active {
-    @apply text-accent;
+    @apply text-primary;
 }

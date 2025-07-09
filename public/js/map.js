@@ -525,9 +525,20 @@ const vectorLayerPercil = new VectorLayer({
 const format = new WKB();
 
 const getPercil = async (agama = "", tipeHak = "") => {
-    const response = await fetch(`action/getPercil.php?agama=${agama}&tipeHak=${tipeHak}`);
-    const data = await response.json();
-    return data;
+    try {
+        myAlert.show("getting", "Sedang memuat data...", 1500);
+        const response = await fetch(`action/getPercil.php?agama=${agama}&tipeHak=${tipeHak}`);
+        if (!response.ok) {
+            myAlert.show("error", "Gagal mengambil data", 1500);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        myAlert.show("success", "Data persil berhasil dimuat", 1500);
+        return data;
+    } catch (error) {
+        console.error("Failed to fetch percil data:", error);
+        return null;
+    }
 };
 
 let blokVisibility = {};
@@ -620,24 +631,4 @@ $("#applyFilterBtn").click(async function () {
     const tipeHak = $("#filterTipeHak").val();
     // Panggil ulang data dengan filter parameter
     await loadPercilData(agama, tipeHak);
-});
-
-function togglePanel(panelId, toggleButton) {
-    const panel = $("#" + panelId);
-    panel.toggleClass("hidden");
-    $(toggleButton).toggleClass("active");
-    panel
-        .find("button.close-panel")
-        .off("click")
-        .on("click", function () {
-            panel.addClass("hidden");
-            $(toggleButton).removeClass("active");
-        });
-}
-
-$("#search-toggle").click(function (e) {
-    togglePanel("searchPanel", this);
-});
-$("#layer-toggle").click(function (e) {
-    togglePanel("layerPanel", this);
 });
