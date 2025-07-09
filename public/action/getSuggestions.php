@@ -24,13 +24,15 @@ if ($searchField && $searchValue) {
     }
 
     if ($column) {
+        $safeSearchValue = pg_escape_string($dbconn, $searchValue);
+
         $query = "
         SELECT DISTINCT $column AS result FROM \"Bidang Tanah\"
         LEFT JOIN \"Pemilik Tanah\" PemilikTanah ON \"Bidang Tanah\".\"NIB\" = PemilikTanah.\"NIB\"
         LEFT JOIN \"Orang\" OrangPemilik ON PemilikTanah.\"Nama\" = OrangPemilik.\"Id_Nama\"
         LEFT JOIN \"Wajib Pajak\" WajibPajak ON \"Bidang Tanah\".\"NOP\" = WajibPajak.\"NOP\"
         LEFT JOIN \"Orang\" OrangWP ON WajibPajak.\"Nama\" = OrangWP.\"Id_Nama\"
-        WHERE $column ILIKE '%$searchValue%'
+        WHERE $column ILIKE '%$safeSearchValue%'
         LIMIT 10
     ";
 
@@ -44,6 +46,7 @@ if ($searchField && $searchValue) {
         header('Content-Type: application/json');
         echo json_encode($suggestions, JSON_PRETTY_PRINT);
     }
-    // Tutup koneksi
-    pg_close($dbconn);
 }
+
+// Tutup koneksi
+pg_close($dbconn);

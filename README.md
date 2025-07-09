@@ -77,12 +77,22 @@ This project is an interactive web mapping application designed to visualize lan
 
         -   For development (with automatic watch mode):
             npm run dev
-            
+
         -   For production (files will be minified):
             npm run build
 
     These commands will take the source file from `src/css/input.css` and generate the output to`public/css/style.css`.
 
-5.  **Run the Application**
-    -   Point your web server's document root to the `public/` or `pertanahan-kedaton/public/` directory.
-    -   Open the application in your browser (e.g., `http://localhost/` or `http://localhost/pertanahan-kedaton/public/`).
+5.  **Run the Application** - Point your web server's document root to the `public/` or `pertanahan-kedaton/public/` directory. - Open the application in your browser (e.g., `http://localhost/` or `http://localhost/pertanahan-kedaton/public/`).
+
+## Support and Donations
+
+If you find this project useful and would like to support its further development, you can make a donation via the following platforms:
+
+https://ko-fi.com/zakialawi
+
+Every contribution you make is greatly appreciated. Thank you!
+
+## License
+
+This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.

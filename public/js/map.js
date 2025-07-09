@@ -719,7 +719,8 @@ $("#searchValue").on("input", function () {
             let listItems = "";
             if (data.length > 0) {
                 data.forEach((item) => {
-                    listItems += `<li class="px-3 py-1 cursor-pointer hover:bg-gray-100">${item}</li>`;
+                    const safeItem = $("<div>").text(item).html();
+                    listItems += `<li class="px-3 py-1 cursor-pointer hover:bg-gray-100">${safeItem}</li>`;
                 });
             } else {
                 listItems = `<li class="px-3 py-1 text-gray-400">Tidak ditemukan</li>`;
