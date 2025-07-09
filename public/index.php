@@ -258,6 +258,7 @@
                 <option value="nop">NOP</option>
             </select>
             <input type="search" id="searchValue" class="w-full pl-32 pr-3 py-2 border text-sm rounded-md focus:outline-none focus:border-gray-400" placeholder="Ketik kata kunci..." />
+            <ul id="suggestions" class="absolute top-full left-32 z-50 bg-white border border-gray-300 rounded w-64 mt-1 hidden max-h-40 overflow-y-auto text-sm"></ul>
         </div>
         <button id="searchButton" class="mt-1 px-1.5 py-1 bg-primary text-white text-sm rounded hover:bg-primary/75">Cari</button>
     </div>

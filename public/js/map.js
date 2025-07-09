@@ -685,6 +685,7 @@ $("#searchButton").click(function () {
  * @property {String} searchValue Value to search for.
  */
 function getFilterParams() {
+    $("#suggestions").hide();
     return {
         agama: $("#filterAgama").val(),
         tipeHak: $("#filterTipeHak").val(),
@@ -700,3 +701,36 @@ function resetFilters() {
     $("#filterAgama").val("");
     $("#filterTipeHak").val("");
 }
+
+$("#searchValue").on("input", function () {
+    const searchField = $("#searchField").val();
+    const searchValue = $(this).val();
+    if (searchValue.length < 3) {
+        $("#suggestions").hide();
+        return;
+    }
+
+    $.ajax({
+        url: "action/getSuggestions.php",
+        method: "GET",
+        data: { searchField, searchValue },
+        success: function (response) {
+            const data = response;
+            let listItems = "";
+            if (data.length > 0) {
+                data.forEach((item) => {
+                    listItems += `<li class="px-3 py-1 cursor-pointer hover:bg-gray-100">${item}</li>`;
+                });
+            } else {
+                listItems = `<li class="px-3 py-1 text-gray-400">Tidak ditemukan</li>`;
+            }
+            $("#suggestions").html(listItems).show();
+        },
+    });
+});
+
+$(document).on("click", "#suggestions li", function () {
+    $("#searchValue").val($(this).text());
+    $("#searchButton").trigger("click");
+    $("#suggestions").hide();
+});
