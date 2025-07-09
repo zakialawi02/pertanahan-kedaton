@@ -29,6 +29,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $tipeHakFilter = ' AND TipeHak."Nama_TipeHak" = \'' . $tipeHak . '\'';
         }
     }
+    // Filter Search Field
+    $searchField = '';
+    $searchValue = '';
+    $searchQuery = '';
+    if (isset($_GET['searchField']) && isset($_GET['searchValue'])) {
+        $searchField = $_GET['searchField'];
+        $searchValue = $_GET['searchValue'];
+
+        // Validasi searchField
+        switch ($searchField) {
+            case 'nama_pemilik':
+                $column = 'OrangPemilik."Nama"';
+                break;
+            case 'nama_wajib_pajak':
+                $column = 'OrangWP."Nama"';
+                break;
+            case 'nib':
+                $column = 'BidangTanah."NIB"::text';
+                break;
+            case 'nop':
+                $column = 'BidangTanah."NOP"::text';
+                break;
+            default:
+                $column = ''; // Invalid field
+                break;
+        }
+
+        if (!empty($column) && !empty($searchValue)) {
+            // Sanitasi dasar, gunakan pg_escape_string kalau perlu
+            $escapedValue = pg_escape_string($dbconn, $searchValue);
+            $searchQuery = ' AND ' . $column . ' ILIKE \'%' . $escapedValue . '%\'';
+        }
+    }
 
     $query = '
         SELECT
@@ -82,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         LEFT JOIN "Agama" AgamaPemilik ON OrangPemilik."Agama" = AgamaPemilik."Id_Agama"
         LEFT JOIN "Agama" AgamaWP ON OrangWP."Agama" = AgamaWP."Id_Agama"
         WHERE BidangTanah."Id_Bidang" IS NOT NULL
-        ' . $blokFilter . $agamaFilter . $tipeHakFilter . '
+        ' . $blokFilter . $agamaFilter . $tipeHakFilter . $searchQuery . '
         ORDER BY BidangTanah."Id_Bidang" ASC
     ';
 

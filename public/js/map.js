@@ -521,13 +521,23 @@ const vectorLayerPercil = new VectorLayer({
     style: getStyle,
     zIndex: 10,
 });
+map.addLayer(vectorLayerPercil);
 
 const format = new WKB();
 
-const getPercil = async (agama = "", tipeHak = "") => {
+/**
+ * Fetches data from server and returns it in JSON format.
+ * @param {string} [agama=""] - Filter by agama
+ * @param {string} [tipeHak=""] - Filter by tipeHak
+ * @param {string} [searchField=""] - Search field
+ * @param {string} [searchValue=""] - Search value
+ * @returns {Promise<null|{id_bidang: string, nib: string, nama_pemilik: string, nop: string, ...}>}
+ *          Data persil or null if failed
+ */
+const getPercil = async (agama = "", tipeHak = "", searchField = "", searchValue = "") => {
     try {
         myAlert.show("getting", "Sedang memuat data...", 1500);
-        const response = await fetch(`action/getPercil.php?agama=${agama}&tipeHak=${tipeHak}`);
+        const response = await fetch(`action/getPercil.php?agama=${agama}&tipeHak=${tipeHak}&searchField=${searchField}&searchValue=${searchValue}`);
         if (!response.ok) {
             myAlert.show("error", "Gagal mengambil data", 1500);
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -543,13 +553,20 @@ const getPercil = async (agama = "", tipeHak = "") => {
 
 let blokVisibility = {};
 
-let features = [];
-async function loadPercilData(agama = "", tipeHak = "") {
+/**
+ * Memuat data persil dari server dan menampilkannya di map.
+ * Data akan difilter berdasarkan parameter yang diberikan.
+ * @param {string} [agama=""] - Filter berdasarkan agama
+ * @param {string} [tipeHak=""] - Filter berdasarkan tipe hak
+ * @param {string} [searchField=""] - Filter berdasarkan field tertentu
+ * @param {string} [searchValue=""] - Filter berdasarkan nilai tertentu
+ */
+async function loadPercilData(agama = "", tipeHak = "", searchField = "", searchValue = "") {
     vectorSourcePercil.clear();
     closePropertyPanel();
     blokVisibility = {}; // reset blok toggle
 
-    const data = await getPercil(agama, tipeHak);
+    const data = await getPercil(agama, tipeHak, searchField, searchValue);
 
     data.forEach((item) => {
         try {
@@ -601,11 +618,29 @@ async function loadPercilData(agama = "", tipeHak = "") {
     });
 
     generateBlokToggle();
-    map.addLayer(vectorLayerPercil);
+
+    const features = vectorSourcePercil.getFeatures();
+    if (features.length > 0) {
+        const extent = vectorSourcePercil.getExtent();
+        map.getView().fit(extent, {
+            padding: [30, 30, 30, 30],
+            maxZoom: 18,
+            duration: 700,
+        });
+    } else {
+        myAlert.hide();
+        myAlert.show("error", "Data persil tidak ditemukan", 1500);
+    }
 }
 
 loadPercilData();
 
+/**
+ * Generate toggle button for each Blok in the Layer Panel.
+ * The toggles will be placed inside the last <div> element of #layerPanelContent.
+ * Each toggle button will have a class "blok-toggle" and a data-blok attribute
+ * that corresponds to the Blok name.
+ */
 function generateBlokToggle() {
     let html = "";
     Object.keys(blokVisibility).forEach((blok) => {
@@ -626,9 +661,76 @@ $("body").on("change", ".blok-toggle", function () {
     vectorSourcePercil.getFeatures().forEach((f) => f.setStyle(getStyle(f)));
 });
 
-$("#applyFilterBtn").click(async function () {
-    const agama = $("#filterAgama").val();
-    const tipeHak = $("#filterTipeHak").val();
-    // Panggil ulang data dengan filter parameter
-    await loadPercilData(agama, tipeHak);
+// Apply Filter Button
+$("#applyFilterButton").click(function () {
+    const params = getFilterParams();
+    loadPercilData(params.agama, params.tipeHak, params.searchField, params.searchValue);
+});
+
+// Search Button
+$("#searchButton").click(function () {
+    resetFilters();
+    const params = getFilterParams();
+    loadPercilData("", "", params.searchField, params.searchValue);
+});
+
+/**
+ * Get all the filter params from the UI. This is a simple function
+ * that returns an object with all the values of the filter fields.
+ *
+ * @return {Object} An object with all the filter params.
+ * @property {String} agama Agama filter value.
+ * @property {String} tipeHak Tipe Hak filter value.
+ * @property {String} searchField Field to search in.
+ * @property {String} searchValue Value to search for.
+ */
+function getFilterParams() {
+    $("#suggestions").hide();
+    return {
+        agama: $("#filterAgama").val(),
+        tipeHak: $("#filterTipeHak").val(),
+        searchField: $("#searchField").val(),
+        searchValue: $("#searchValue").val(),
+    };
+}
+
+/**
+ * Reset all filter fields to their default values.
+ */
+function resetFilters() {
+    $("#filterAgama").val("");
+    $("#filterTipeHak").val("");
+}
+
+$("#searchValue").on("input", function () {
+    const searchField = $("#searchField").val();
+    const searchValue = $(this).val();
+    if (searchValue.length < 3) {
+        $("#suggestions").hide();
+        return;
+    }
+
+    $.ajax({
+        url: "action/getSuggestions.php",
+        method: "GET",
+        data: { searchField, searchValue },
+        success: function (response) {
+            const data = response;
+            let listItems = "";
+            if (data.length > 0) {
+                data.forEach((item) => {
+                    listItems += `<li class="px-3 py-1 cursor-pointer hover:bg-gray-100">${item}</li>`;
+                });
+            } else {
+                listItems = `<li class="px-3 py-1 text-gray-400">Tidak ditemukan</li>`;
+            }
+            $("#suggestions").html(listItems).show();
+        },
+    });
+});
+
+$(document).on("click", "#suggestions li", function () {
+    $("#searchValue").val($(this).text());
+    $("#searchButton").trigger("click");
+    $("#suggestions").hide();
 });
