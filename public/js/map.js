@@ -30,14 +30,21 @@ const osmBaseMap = new TileLayer({
 
 const sourceBingMaps = new BingMaps({
     key: "AjQ2yJ1-i-j_WMmtyTrjaZz-3WdMb2Leh_mxe9-YBNKk_mz1cjRC7-8ILM7WUVEu",
-    imagerySet: "AerialWithLabels",
+    imagerySet: "Aerial",
     maxZoom: 20,
 });
+// const bingAerialBaseMap = new TileLayer({
+//     preload: Infinity,
+//     source: sourceBingMaps,
+//     crossOrigin: "anonymous",
+//     visible: true,
+// });
 const bingAerialBaseMap = new TileLayer({
-    preload: Infinity,
-    source: sourceBingMaps,
-    crossOrigin: "anonymous",
-    visible: true,
+    source: new XYZ({
+        url: "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        maxZoom: 18,
+        crossOrigin: "anonymous",
+    }),
 });
 
 const mapboxBaseURL = "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw";

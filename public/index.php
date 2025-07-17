@@ -27,11 +27,15 @@
         <div class="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-[64px]">
                 <div class="flex-1 md:flex md:items-center md:gap-12">
-                    <a class="inline-flex items-center text-primary" href="/">
+                    <a class="inline-flex items-start text-primary" href="/">
                         <span class="sr-only">Logo</span>
                         <img src="./img/logo.webp" class="h-auto max-h-12 w-auto max-w-12" alt="Logo">
-                        <span class="ml-2 font-bold uppercase text-2xl">Web Name</span>
+                        <div class="ml-2">
+                            <span class="font-bold uppercase text-2xl block">SIGAP</span>
+                            <span class="text-xs block">Sistem Informasi Geosapasial Aset Tanah dan Pajak</span>
+                        </div>
                     </a>
+
                 </div>
 
                 <div class="md:flex md:items-center md:gap-12">
