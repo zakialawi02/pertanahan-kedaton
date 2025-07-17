@@ -32,7 +32,7 @@
                         <img src="./img/logo.webp" class="h-auto max-h-12 w-auto max-w-12" alt="Logo">
                         <div class="ml-2">
                             <span class="font-bold uppercase text-2xl block">SIGAP</span>
-                            <span class="text-xs block">Sistem Informasi Geosapasial Aset Tanah dan Pajak</span>
+                            <span class="text-xs block">Sistem Informasi Geospasial Aset Tanah dan Pajak</span>
                         </div>
                     </a>
 
