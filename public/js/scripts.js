@@ -129,3 +129,17 @@ $("#search-toggle").click(function (e) {
 $("#layer-toggle").click(function (e) {
     togglePanel("layerPanel", this);
 });
+
+$(".tab-btn").on("click", function () {
+    // reset semua tab ke non-aktif
+    $(".tab-btn").removeClass("bg-blue-500 text-white").addClass("bg-gray-200 hover:bg-primary");
+
+    // aktifkan tab yang diklik
+    $(this).removeClass("bg-gray-200 hover:bg-primary").addClass("bg-blue-500 text-white");
+
+    // sembunyikan semua konten
+    $(".tab-content").addClass("hidden");
+
+    // tampilkan konten target
+    $($(this).data("target")).removeClass("hidden");
+});

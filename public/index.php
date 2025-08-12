@@ -310,17 +310,45 @@
     <!-- Property Panel -->
     <div id="propertyPanel" class="absolute transition-all duration-300 ease-in-out hidden z-50 bg-white shadow-lg rounded-t-lg border border-t border-gray-200
     max-w-full w-full bottom-0 left-0 md:top-1/2 md:right-2 md:left-auto md:transform md:-translate-y-1/2 md:rounded-lg md:max-w-[28rem] md:bottom-auto overflow-hidden">
-        <div class="bg-accent px-4 py-2 flex items-center justify-between">
+        <div class="bg-accent px-4 py-1 flex items-center justify-between">
             <h4 class="font-semibold">📄 Informasi Bidang</h4>
             <button onclick="closePropertyPanel()" class="text-sm hover:opacity-80 font-extrabold">✕</button>
         </div>
+        <div class="flex space-x-2 p-2">
+            <button
+                class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-blue-500 text-white focus:outline-none"
+                data-target="#tab-percil">
+                Data Pemilik
+            </button>
+            <button
+                class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 focus:outline-none"
+                data-target="#tab-wp">
+                Data Wajib Pajak
+            </button>
+        </div>
         <div id="propertyPanelContent" class="max-h-[22rem] overflow-y-auto p-4 text-sm text-gray-700 space-y-2">
-            <p>Memuat data...</p>
+            <div id="tab-coord">
+                <p>Memuat data...</p>
+            </div>
+
+            <div id="tab-percil" class="tab-content">
+                <div class="">
+                    <p>Memuat data...</p>
+                </div>
+            </div>
+
+            <div id="tab-wp" class="tab-content hidden">
+                <div class="">
+                    <p>Memuat data...</p>
+                </div>
+            </div>
+
         </div>
     </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/ol@v10.5.0/dist/ol.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/ol@v10.5.0/dist/ol.js">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
 

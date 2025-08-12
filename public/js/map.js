@@ -475,6 +475,7 @@ function eventClickMap(evt) {
             markToClickedPosition(coordinate);
 
             const props = feature.getProperties();
+            console.log(props);
 
             // Buat konten tabel info
             let tableContent = `
@@ -484,24 +485,189 @@ function eventClickMap(evt) {
                         <th class="px-2 py-1 text-left">Koordinat Klik</th>
                         <td class="px-2 py-1">${hdmsCoordinate}</td>
                     </tr>
+                    </tbody>
+            </table>
             `;
-            // Loop semua property, kecuali geometry
-            for (const [key, value] of Object.entries(props)) {
-                if (key === "geometry") continue;
 
-                tableContent += `
+            let tableContent2 = `
+            <table class="table-auto w-full border border-accent text-sm">
+                <tbody>
                 <tr class="border-b">
-                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">${key.replace(/_/g, " ")}</th>
-                    <td class="px-2 py-1">${value || "-"}</td>
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Blok
+                    </th>
+                    <td class="px-2 py-1">${props?.blok ?? "-"}</td>
                 </tr>
-            `;
-            }
-            tableContent += `
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Tipe Hak
+                    </th>
+                    <td class="px-2 py-1">${props?.tipe_hak ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Nama Pemilik
+                    </th>
+                    <td class="px-2 py-1">${props?.nama_pemilik ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Agama
+                    </th>
+                    <td class="px-2 py-1">${props?.agama ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Tanggal Lahir
+                    </th>
+                    <td class="px-2 py-1">${props?.tanggal_lahir ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    NIK
+                    </th>
+                    <td class="px-2 py-1">${props?.nik ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    NIB
+                    </th>
+                    <td class="px-2 py-1">${props?.nib ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    NJOP
+                    </th>
+                    <td class="px-2 py-1">${props?.njop ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    NOP
+                    </th>
+                    <td class="px-2 py-1">${props?.nop ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Pekerjaan
+                    </th>
+                    <td class="px-2 py-1">${props?.pekerjaan ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Penggunaan
+                    </th>
+                    <td class="px-2 py-1">${props?.penggunaan ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Luas (m^2)
+                    </th>
+                    <td class="px-2 py-1">${props?.luas ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Dasar Perolehan
+                    </th>
+                    <td class="px-2 py-1">${props?.dasar_perolehan ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Bukti Perolehan
+                    </th>
+                    <td class="px-2 py-1">${props?.bukti_perolehan ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Tahun Perolehan
+                    </th>
+                    <td class="px-2 py-1">${props?.tahun_perolehan ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Tahun SPT
+                    </th>
+                    <td class="px-2 py-1">${props?.tahun_spt ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Tanggal Berkas
+                    </th>
+                    <td class="px-2 py-1">${props?.tanggal_berkas ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Alamat
+                    </th>
+                    <td class="px-2 py-1">${props?.alamat ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Kelurahan/Desa
+                    </th>
+                    <td class="px-2 py-1">${props?.["kelurahan/desa"] ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Kecamatan
+                    </th>
+                    <td class="px-2 py-1">${props?.kecamatan ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Kabupaten/Kota
+                    </th>
+                    <td class="px-2 py-1">${props?.kabupaten ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Provinsi
+                    </th>
+                    <td class="px-2 py-1">${props?.provinsi ?? "-"}</td>
+                </tr>
                 </tbody>
             </table>
             `;
 
-            $("#propertyPanelContent").html(tableContent);
+            let tableContent3 = `
+            <table class="table-auto w-full border border-accent text-sm">
+                <tbody>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    NIK Wajib Pajak
+                    </th>
+                    <td class="px-2 py-1">${props?.nik_wp ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Nama Wajib Pajak
+                    </th>
+                    <td class="px-2 py-1">${props?.nama_wajib_pajak ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Tanggal Lahir Wajib Pajak
+                    </th>
+                    <td class="px-2 py-1">${props?.tanggal_lahir_wp ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Alamat Wajib Pajak
+                    </th>
+                    <td class="px-2 py-1">${props?.alamat_wp ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Pekerjaan Wajib Pajak
+                    </th>
+                    <td class="px-2 py-1">${props?.pekerjaan_wp ?? "-"}</td>
+                </tr>
+                </tbody>
+            </table>
+            `;
+
+            $("#propertyPanelContent #tab-coord").html(tableContent);
+            $("#propertyPanelContent #tab-percil").html(tableContent2);
+            $("#propertyPanelContent #tab-wp").html(tableContent3);
 
             return true; // berhenti setelah fitur pertama
         }
