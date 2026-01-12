@@ -22,16 +22,16 @@ register(proj4);
 
 // BaseMap
 const osmBaseMap = new TileLayer({
-    source: new OSM(),
-    crossOrigin: "anonymous",
-    visible: false,
-    preload: 15,
+  source: new OSM(),
+  crossOrigin: "anonymous",
+  visible: false,
+  preload: 15,
 });
 
 const sourceBingMaps = new BingMaps({
-    key: "AjQ2yJ1-i-j_WMmtyTrjaZz-3WdMb2Leh_mxe9-YBNKk_mz1cjRC7-8ILM7WUVEu",
-    imagerySet: "Aerial",
-    maxZoom: 20,
+  key: "AjQ2yJ1-i-j_WMmtyTrjaZz-3WdMb2Leh_mxe9-YBNKk_mz1cjRC7-8ILM7WUVEu",
+  imagerySet: "Aerial",
+  maxZoom: 20,
 });
 // const bingAerialBaseMap = new TileLayer({
 //     preload: Infinity,
@@ -40,91 +40,91 @@ const sourceBingMaps = new BingMaps({
 //     visible: true,
 // });
 const bingAerialBaseMap = new TileLayer({
-    source: new XYZ({
-        url: "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        maxZoom: 18,
-        crossOrigin: "anonymous",
-    }),
+  source: new XYZ({
+    url: "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    maxZoom: 18,
+    crossOrigin: "anonymous",
+  }),
 });
 
 const mapboxBaseURL = "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw";
 const mapboxStyleId = "mapbox/streets-v11";
 const mapboxSource = new XYZ({
-    url: mapboxBaseURL.replace("{id}", mapboxStyleId),
+  url: mapboxBaseURL.replace("{id}", mapboxStyleId),
 });
 const mapboxBaseMap = new TileLayer({
-    source: mapboxSource,
-    crossOrigin: "anonymous",
-    visible: false,
-    preload: 15,
+  source: mapboxSource,
+  crossOrigin: "anonymous",
+  visible: false,
+  preload: 15,
 });
 
 const esriMap = new TileLayer({
-    source: new Source({
-        attributions: 'Tiles © <a href="https://services.arcgisonline.com/ArcGIS/' + 'rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
-        url: "https://server.arcgisonline.com/ArcGIS/rest/services/" + "World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
-    }),
-    crossOrigin: "anonymous",
-    visible: false,
+  source: new Source({
+    attributions: 'Tiles © <a href="https://services.arcgisonline.com/ArcGIS/' + 'rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/" + "World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+  }),
+  crossOrigin: "anonymous",
+  visible: false,
 });
 
 const baseMaps = [osmBaseMap, bingAerialBaseMap, mapboxBaseMap, esriMap];
 
 // Minimap
 const overviewMapControl = new OverviewMap({
-    layers: [
-        new TileLayer({
-            source: new OSM(),
-        }),
-    ],
-    target: document.getElementById("minimap"),
-    className: "ol-overviewmap ol-custom-overviewmap",
-    collapsed: false,
-    tipLabel: "Minimap",
-    collapseLabel: "\u00BB",
-    label: "\u00AB",
+  layers: [
+    new TileLayer({
+      source: new OSM(),
+    }),
+  ],
+  target: document.getElementById("minimap"),
+  className: "ol-overviewmap ol-custom-overviewmap",
+  collapsed: false,
+  tipLabel: "Minimap",
+  collapseLabel: "\u00BB",
+  label: "\u00AB",
 });
 
 // Attribution
 const attribution = new Attribution({
-    target: document.getElementById("attribution"),
-    collapsible: true,
-    className: "ol-attribution",
+  target: document.getElementById("attribution"),
+  collapsible: true,
+  className: "ol-attribution",
 });
 
 // ScaleLine
 const scaleControl = new ScaleLine({
-    target: document.getElementById("scaleline"),
-    units: "metric",
-    bar: true,
-    steps: 4,
-    text: true,
-    minWidth: 140,
-    maxWidth: 180,
-    className: "ol-scale-line",
+  target: document.getElementById("scaleline"),
+  units: "metric",
+  bar: true,
+  steps: 4,
+  text: true,
+  minWidth: 140,
+  maxWidth: 180,
+  className: "ol-scale-line",
 });
 
 // zoom
 const zoomControl = new ol.control.Zoom({
-    target: document.getElementById("zoomToggle"),
-    className: "ol-custom-zoom",
-    zoomInClassName: "btn ol-custom-zoom-in",
-    zoomOutClassName: "btn ol-custom-zoom-out",
-    zoomInLabel: "",
-    zoomOutLabel: "",
+  target: document.getElementById("zoomToggle"),
+  className: "ol-custom-zoom",
+  zoomInClassName: "btn ol-custom-zoom-in",
+  zoomOutClassName: "btn ol-custom-zoom-out",
+  zoomInLabel: "",
+  zoomOutLabel: "",
 });
 
 // Mouse Position
 const mousePositionControl = new MousePosition({
-    target: document.getElementById("mousePosition"),
-    coordinateFormat: function (coordinate) {
-        const { formattedLon, formattedLat } = coordinateFormatIndo(coordinate, "dd");
+  target: document.getElementById("mousePosition"),
+  coordinateFormat: function (coordinate) {
+    const { formattedLon, formattedLat } = coordinateFormatIndo(coordinate, "dd");
 
-        return "Long: " + formattedLon + " &nbsp&nbsp&nbsp  Lat: " + formattedLat;
-    },
-    projection: "EPSG:4326",
-    placeholder: "Long: - &nbsp&nbsp&nbsp  Lat: -",
-    className: "ol-custom-mouse-position",
+    return "Long: " + formattedLon + " &nbsp&nbsp&nbsp  Lat: " + formattedLat;
+  },
+  projection: "EPSG:4326",
+  placeholder: "Long: - &nbsp&nbsp&nbsp  Lat: -",
+  className: "ol-custom-mouse-position",
 });
 
 /**
@@ -139,127 +139,127 @@ const mousePositionControl = new MousePosition({
  * dms=> {"formattedLon": "112° 47' 17.00\" BT", "formattedLat": "7° 24' 46.00\" LS"}
  */
 function coordinateFormatIndo(coordinate, format = "dd") {
-    const lon = coordinate[0];
-    const lat = coordinate[1];
+  const lon = coordinate[0];
+  const lat = coordinate[1];
 
-    const lonDirection = lon < 0 ? "BB" : "BT";
-    const latDirection = lat < 0 ? "LS" : "LU"; // LS: Lintang Selatan, LU: Lintang Utara
+  const lonDirection = lon < 0 ? "BB" : "BT";
+  const latDirection = lat < 0 ? "LS" : "LU"; // LS: Lintang Selatan, LU: Lintang Utara
 
-    if (format === "dms") {
-        const convertToDMS = (coord, direction) => {
-            const absoluteCoord = Math.abs(coord);
-            const degrees = Math.floor(absoluteCoord);
-            const minutes = Math.floor((absoluteCoord - degrees) * 60);
-            const seconds = ((absoluteCoord - degrees - minutes / 60) * 3600).toFixed(2);
-            return `${degrees}° ${minutes}' ${seconds}" ${direction}`;
-        };
-        const formattedLon = convertToDMS(lon, lonDirection);
-        const formattedLat = convertToDMS(lat, latDirection);
-        return {
-            formattedLon,
-            formattedLat,
-        };
-    } else {
-        const formattedLon = `${Math.abs(lon).toFixed(5)}° ${lonDirection}`;
-        const formattedLat = `${Math.abs(lat).toFixed(5)}° ${latDirection}`;
-        return {
-            formattedLon,
-            formattedLat,
-        };
-    }
+  if (format === "dms") {
+    const convertToDMS = (coord, direction) => {
+      const absoluteCoord = Math.abs(coord);
+      const degrees = Math.floor(absoluteCoord);
+      const minutes = Math.floor((absoluteCoord - degrees) * 60);
+      const seconds = ((absoluteCoord - degrees - minutes / 60) * 3600).toFixed(2);
+      return `${degrees}° ${minutes}' ${seconds}" ${direction}`;
+    };
+    const formattedLon = convertToDMS(lon, lonDirection);
+    const formattedLat = convertToDMS(lat, latDirection);
+    return {
+      formattedLon,
+      formattedLat,
+    };
+  } else {
+    const formattedLon = `${Math.abs(lon).toFixed(5)}° ${lonDirection}`;
+    const formattedLat = `${Math.abs(lat).toFixed(5)}° ${latDirection}`;
+    return {
+      formattedLon,
+      formattedLat,
+    };
+  }
 }
 
 // View map
 const view = new View({
-    projection: "EPSG:3857",
-    center: fromLonLat([111.91907902336122, -7.203098192491574]),
-    zoom: 16,
+  projection: "EPSG:3857",
+  center: fromLonLat([111.91907902336122, -7.203098192491574]),
+  zoom: 16,
 });
 
 // init map
 const map = new Map({
-    layers: [
-        new LayerGroup({
-            layers: baseMaps,
-        }),
-    ],
+  layers: [
+    new LayerGroup({
+      layers: baseMaps,
+    }),
+  ],
 
-    target: "map",
+  target: "map",
 
-    view: view,
+  view: view,
 
-    controls: [zoomControl, scaleControl, overviewMapControl, attribution, mousePositionControl],
+  controls: [zoomControl, scaleControl, overviewMapControl, attribution, mousePositionControl],
 });
 
 map.getViewport().style.cursor = "grab";
 
 window.addEventListener("resize", () => {
-    if (window.innerWidth <= 768) {
-        map.removeControl(mousePositionControl);
-    } else {
-        if (!map.getControls().getArray().includes(mousePositionControl)) {
-            map.addControl(mousePositionControl);
-        }
+  if (window.innerWidth <= 768) {
+    map.removeControl(mousePositionControl);
+  } else {
+    if (!map.getControls().getArray().includes(mousePositionControl)) {
+      map.addControl(mousePositionControl);
     }
+  }
 });
 
 function setBasemap(mapType, element = null) {
-    document.getElementById("active-basemap").src = element?.nextElementSibling?.src ?? element?.querySelector("img")?.src;
-    if (mapType === "osm") {
-        setOsmBasemap();
-    } else if (mapType === "bing") {
-        setBingmapBasemap();
-    } else if (mapType === "mapbox") {
-        setMapboxBasemap();
-    } else if (mapType === "esriTerrain") {
-        setEsriBasemap();
-    }
+  document.getElementById("active-basemap").src = element?.nextElementSibling?.src ?? element?.querySelector("img")?.src;
+  if (mapType === "osm") {
+    setOsmBasemap();
+  } else if (mapType === "bing") {
+    setBingmapBasemap();
+  } else if (mapType === "mapbox") {
+    setMapboxBasemap();
+  } else if (mapType === "esriTerrain") {
+    setEsriBasemap();
+  }
 
-    localStorage.setItem("basemap", mapType);
+  localStorage.setItem("basemap", mapType);
 }
 
 function toggleOptions() {
-    document.querySelector(".basemap-options").classList.toggle("flex");
+  document.querySelector(".basemap-options").classList.toggle("flex");
 }
 
 function initBasemap() {
-    const savedBasemap = localStorage.getItem("basemap");
-    if (savedBasemap) {
-        const element = document.querySelector(`input[name='basemap'][value='${savedBasemap}']`).parentElement;
-        setBasemap(savedBasemap, element);
-    } else {
-        const checkedInput = document.querySelector("input[name='basemap']:checked");
-        setBasemap(checkedInput.value, checkedInput.parentElement);
-    }
+  const savedBasemap = localStorage.getItem("basemap");
+  if (savedBasemap) {
+    const element = document.querySelector(`input[name='basemap'][value='${savedBasemap}']`).parentElement;
+    setBasemap(savedBasemap, element);
+  } else {
+    const checkedInput = document.querySelector("input[name='basemap']:checked");
+    setBasemap(checkedInput.value, checkedInput.parentElement);
+  }
 }
 initBasemap();
 
 function setOsmBasemap() {
-    osmBaseMap.setVisible(true);
-    bingAerialBaseMap.setVisible(false);
-    mapboxBaseMap.setVisible(false);
-    esriMap.setVisible(false);
+  osmBaseMap.setVisible(true);
+  bingAerialBaseMap.setVisible(false);
+  mapboxBaseMap.setVisible(false);
+  esriMap.setVisible(false);
 }
 
 function setBingmapBasemap() {
-    osmBaseMap.setVisible(false);
-    bingAerialBaseMap.setVisible(true);
-    mapboxBaseMap.setVisible(false);
-    esriMap.setVisible(false);
+  osmBaseMap.setVisible(false);
+  bingAerialBaseMap.setVisible(true);
+  mapboxBaseMap.setVisible(false);
+  esriMap.setVisible(false);
 }
 
 function setMapboxBasemap() {
-    osmBaseMap.setVisible(false);
-    bingAerialBaseMap.setVisible(false);
-    mapboxBaseMap.setVisible(true);
-    esriMap.setVisible(false);
+  osmBaseMap.setVisible(false);
+  bingAerialBaseMap.setVisible(false);
+  mapboxBaseMap.setVisible(true);
+  esriMap.setVisible(false);
 }
 
 function setEsriBasemap() {
-    osmBaseMap.setVisible(false);
-    bingAerialBaseMap.setVisible(false);
-    mapboxBaseMap.setVisible(false);
-    esriMap.setVisible(true);
+  osmBaseMap.setVisible(false);
+  bingAerialBaseMap.setVisible(false);
+  mapboxBaseMap.setVisible(false);
+  esriMap.setVisible(true);
 }
 
 /**
@@ -271,89 +271,89 @@ function setEsriBasemap() {
  * @type {Style}
  */
 const pointStyle = new Style({
-    image: new Icon({
-        anchor: [0.5, 0.99],
-        anchorXUnits: "fraction",
-        anchorYUnits: "fraction",
-        with: 50,
-        height: 50,
-        opacity: 0.9,
-        src: "./img/icon/marker.svg",
-    }),
+  image: new Icon({
+    anchor: [0.5, 0.99],
+    anchorXUnits: "fraction",
+    anchorYUnits: "fraction",
+    with: 50,
+    height: 50,
+    opacity: 0.9,
+    src: "./img/icon/marker.svg",
+  }),
 });
 const lineStyle = new Style({
-    stroke: new Stroke({
-        color: "red",
-        width: 2,
-    }),
+  stroke: new Stroke({
+    color: "red",
+    width: 2,
+  }),
 });
 const polygonStyle = new Style({
-    stroke: new Stroke({
-        color: "red",
-        width: 1,
-    }),
-    fill: new Fill({
-        color: "rgba(255, 0, 0, 0.3)",
-    }),
+  stroke: new Stroke({
+    color: "red",
+    width: 1,
+  }),
+  fill: new Fill({
+    color: "rgba(255, 0, 0, 0.3)",
+  }),
 });
 const pointInDraw = new Style({
-    fill: new Fill({
-        color: "rgba(255, 255, 255, 0.2)",
-    }),
+  fill: new Fill({
+    color: "rgba(255, 255, 255, 0.2)",
+  }),
+  stroke: new Stroke({
+    color: "rgba(0, 0, 0, 0.5)",
+    lineDash: [10, 10],
+    width: 2,
+  }),
+  image: new CircleStyle({
+    radius: 5,
     stroke: new Stroke({
-        color: "rgba(0, 0, 0, 0.5)",
-        lineDash: [10, 10],
-        width: 2,
+      color: "rgba(0, 0, 0, 0.7)",
     }),
-    image: new CircleStyle({
-        radius: 5,
-        stroke: new Stroke({
-            color: "rgba(0, 0, 0, 0.7)",
-        }),
-        fill: new Fill({
-            color: "rgba(255, 255, 255, 0.2)",
-        }),
+    fill: new Fill({
+      color: "rgba(255, 255, 255, 0.2)",
     }),
+  }),
 });
 const selectedStyle = new Style({
-    fill: new Fill({
-        color: "rgba(255, 255, 0, 0.4)",
-    }),
-    stroke: new Stroke({
-        color: "#ffff00",
-        width: 2,
-    }),
+  fill: new Fill({
+    color: "rgba(255, 255, 0, 0.4)",
+  }),
+  stroke: new Stroke({
+    color: "#ffff00",
+    width: 2,
+  }),
 });
 // color map by blok
 const blokColors = {
-    1: "rgba(255, 99, 132, 0.5)",
-    2: "rgba(54, 162, 235, 0.5)",
-    3: "rgba(75, 192, 192, 0.5)",
-    4: "rgba(255, 206, 86, 0.5)",
-    5: "rgba(153, 102, 255, 0.5)",
-    6: "rgba(255, 159, 64, 0.5)",
-    7: "rgba(100, 255, 100, 0.5)",
-    8: "rgba(200, 100, 200, 0.5)",
-    9: "rgba(100, 100, 255, 0.5)",
-    "-": "rgba(255, 0, 0, 0.5)",
-    default: "rgba(255, 0, 0, 0.5)",
+  1: "rgba(255, 99, 132, 0.5)",
+  2: "rgba(54, 162, 235, 0.5)",
+  3: "rgba(75, 192, 192, 0.5)",
+  4: "rgba(255, 206, 86, 0.5)",
+  5: "rgba(153, 102, 255, 0.5)",
+  6: "rgba(255, 159, 64, 0.5)",
+  7: "rgba(100, 255, 100, 0.5)",
+  8: "rgba(200, 100, 200, 0.5)",
+  9: "rgba(100, 100, 255, 0.5)",
+  "-": "rgba(255, 0, 0, 0.5)",
+  default: "rgba(255, 0, 0, 0.5)",
 };
 function getBlokColor(blok) {
-    return blokColors[blok] || blokColors["default"];
+  return blokColors[blok] || blokColors["default"];
 }
 const getPolygonStyle = (feature) => {
-    const blok = feature.get("blok");
-    if (!blokVisibility[blok]) return null;
-    const fillColor = getBlokColor(blok);
-    return new Style({
-        stroke: new Stroke({
-            color: "#333",
-            width: 1,
-        }),
-        fill: new Fill({
-            color: fillColor,
-        }),
-    });
+  const blok = feature.get("blok");
+  if (!blokVisibility[blok]) return null;
+  const fillColor = getBlokColor(blok);
+  return new Style({
+    stroke: new Stroke({
+      color: "#333",
+      width: 1,
+    }),
+    fill: new Fill({
+      color: fillColor,
+    }),
+  });
 };
 
 const drawingRunning = false;
@@ -365,18 +365,18 @@ const drawingRunning = false;
  * @return {module:ol/style/Style~Style} The style for the given feature.
  */
 const getStyle = (feature) => {
-    const geometry = feature.getGeometry();
-    if (!geometry) return null;
-    const type = geometry.getType();
+  const geometry = feature.getGeometry();
+  if (!geometry) return null;
+  const type = geometry.getType();
 
-    if (type === "Point") {
-        return drawingRunning ? pointInDraw : pointStyle;
-    } else if (type === "LineString") {
-        return lineStyle;
-    } else if (type === "Polygon" || type === "MultiPolygon") {
-        return getPolygonStyle(feature);
-    }
-    return null;
+  if (type === "Point") {
+    return drawingRunning ? pointInDraw : pointStyle;
+  } else if (type === "LineString") {
+    return lineStyle;
+  } else if (type === "Polygon" || type === "MultiPolygon") {
+    return getPolygonStyle(feature);
+  }
+  return null;
 };
 
 /**
@@ -385,9 +385,9 @@ const getStyle = (feature) => {
  * @param {module:ol/Feature~Feature[]} features The array of features to change the style of.
  */
 const styleKMLKMZ = (features) => {
-    features.forEach((feature) => {
-        feature.setStyle(getStyle(feature));
-    });
+  features.forEach((feature) => {
+    feature.setStyle(getStyle(feature));
+  });
 };
 
 /**
@@ -397,13 +397,13 @@ const styleKMLKMZ = (features) => {
  * @return {void}
  */
 function markToClickedPosition(coordinate) {
-    const marker = new Feature({
-        geometry: new Point(coordinate),
-    });
-    if (vectorSourceEventClick) {
-        vectorSourceEventClick.clear();
-    }
-    vectorLayerEventClick.getSource().addFeatures([marker]);
+  const marker = new Feature({
+    geometry: new Point(coordinate),
+  });
+  if (vectorSourceEventClick) {
+    vectorSourceEventClick.clear();
+  }
+  vectorLayerEventClick.getSource().addFeatures([marker]);
 }
 
 /**
@@ -412,73 +412,73 @@ function markToClickedPosition(coordinate) {
  * @return {void}
  */
 function clearMarkerClickedPosition() {
-    if (vectorSourceEventClick) {
-        vectorSourceEventClick.clear();
-    }
+  if (vectorSourceEventClick) {
+    vectorSourceEventClick.clear();
+  }
 }
 
 function closePropertyPanel() {
-    $("#propertyPanel").addClass("hidden");
-    clearMarkerClickedPosition();
-    vectorSourcePercil.getFeatures().forEach((f) => f.setStyle(getStyle));
+  $("#propertyPanel").addClass("hidden");
+  clearMarkerClickedPosition();
+  vectorSourcePercil.getFeatures().forEach((f) => f.setStyle(getStyle));
 }
 
 const vectorSourceEventClick = new VectorSource();
 const vectorLayerEventClick = new VectorLayer({
-    source: vectorSourceEventClick,
-    style: getStyle,
-    zIndex: 99,
+  source: vectorSourceEventClick,
+  style: getStyle,
+  zIndex: 99,
 });
 map.addLayer(vectorLayerEventClick);
 
 map.on("pointermove", function (evt) {
-    let found = false;
-    map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-        if (layer === vectorLayerPercil) {
-            found = true;
-            map.getViewport().style.cursor = "pointer";
-        }
-    });
-    if (!found) {
-        map.getViewport().style.cursor = "grab";
+  let found = false;
+  map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+    if (layer === vectorLayerPercil) {
+      found = true;
+      map.getViewport().style.cursor = "pointer";
     }
+  });
+  if (!found) {
+    map.getViewport().style.cursor = "grab";
+  }
 });
 
 map.on("singleclick", eventClickMap);
 
 function eventClickMap(evt) {
-    let viewResolution = /** @type {number} */ (view.getResolution());
-    let projection = view.getProjection();
+  let viewResolution = /** @type {number} */ (view.getResolution());
+  let projection = view.getProjection();
 
-    let found = false;
+  let found = false;
 
-    // Get Coordinate
-    const coordinate = evt.coordinate;
-    const LonLatcoordinate = toLonLat(coordinate, projection);
-    const { formattedLon, formattedLat } = coordinateFormatIndo(LonLatcoordinate, "dms");
-    const hdmsCoordinate = `${formattedLon} &nbsp ${formattedLat}`;
+  // Get Coordinate
+  const coordinate = evt.coordinate;
+  const LonLatcoordinate = toLonLat(coordinate, projection);
+  const { formattedLon, formattedLat } = coordinateFormatIndo(LonLatcoordinate, "dms");
+  const hdmsCoordinate = `${formattedLon} &nbsp ${formattedLat}`;
 
-    // Reset style semua feature ke default
-    vectorSourcePercil.getFeatures().forEach((f) => {
-        f.setStyle(getStyle);
-    });
+  // Reset style semua feature ke default
+  vectorSourcePercil.getFeatures().forEach((f) => {
+    f.setStyle(getStyle);
+  });
 
-    map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-        if (layer === vectorLayerPercil) {
-            found = true;
+  map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+    if (layer === vectorLayerPercil) {
+      found = true;
 
-            $("#propertyPanel").removeClass("hidden");
+      $("#propertyPanel").removeClass("hidden");
 
-            // Set style khusus untuk feature terpilih
-            feature.setStyle(selectedStyle);
+      // Set style khusus untuk feature terpilih
+      feature.setStyle(selectedStyle);
 
-            markToClickedPosition(coordinate);
+      markToClickedPosition(coordinate);
 
-            const props = feature.getProperties();
-            console.log(props);
+      const props = feature.getProperties();
+      console.log(props);
 
-            // Buat konten tabel info
-            let tableContent = `
+      // Buat konten tabel info
+      let tableContent = `
             <table class="table-auto w-full border border-accent text-sm">
                 <tbody>
                     <tr class="border-b bg-base-300">
@@ -489,7 +489,7 @@ function eventClickMap(evt) {
             </table>
             `;
 
-            let tableContent2 = `
+      let tableContent2 = `
             <table class="table-auto w-full border border-accent text-sm">
                 <tbody>
                 <tr class="border-b">
@@ -533,18 +533,6 @@ function eventClickMap(evt) {
                     NIB
                     </th>
                     <td class="px-2 py-1">${props?.nib ?? "-"}</td>
-                </tr>
-                <tr class="border-b">
-                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
-                    NJOP
-                    </th>
-                    <td class="px-2 py-1">${props?.njop ?? "-"}</td>
-                </tr>
-                <tr class="border-b">
-                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
-                    NOP
-                    </th>
-                    <td class="px-2 py-1">${props?.nop ?? "-"}</td>
                 </tr>
                 <tr class="border-b">
                     <th class="px-2 border py-1 text-left bg-base-100 uppercase">
@@ -628,9 +616,21 @@ function eventClickMap(evt) {
             </table>
             `;
 
-            let tableContent3 = `
+      let tableContent3 = `
             <table class="table-auto w-full border border-accent text-sm">
                 <tbody>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    NOP
+                    </th>
+                    <td class="px-2 py-1">${props?.nop ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    NJOP
+                    </th>
+                    <td class="px-2 py-1">${props?.njop ?? "-"}</td>
+                </tr>
                 <tr class="border-b">
                     <th class="px-2 border py-1 text-left bg-base-100 uppercase">
                     NIK Wajib Pajak
@@ -665,34 +665,34 @@ function eventClickMap(evt) {
             </table>
             `;
 
-            $("#propertyPanelContent #tab-coord").html(tableContent);
-            $("#propertyPanelContent #tab-percil").html(tableContent2);
-            $("#propertyPanelContent #tab-wp").html(tableContent3);
+      $("#propertyPanelContent #tab-coord").html(tableContent);
+      $("#propertyPanelContent #tab-percil").html(tableContent2);
+      $("#propertyPanelContent #tab-wp").html(tableContent3);
 
-            return true; // berhenti setelah fitur pertama
-        }
-    });
-
-    // Jika klik di area kosong, hapus point & reset style
-    if (!found) {
-        clearMarkerClickedPosition();
-        $("#propertyPanel").addClass("hidden");
+      return true; // berhenti setelah fitur pertama
     }
+  });
+
+  // Jika klik di area kosong, hapus point & reset style
+  if (!found) {
+    clearMarkerClickedPosition();
+    $("#propertyPanel").addClass("hidden");
+  }
 }
 
 const hexToArrayBuffer = (hex) => {
-    const bytes = new Uint8Array(hex.length / 2);
-    for (let i = 0; i < hex.length; i += 2) {
-        bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
-    }
-    return bytes.buffer;
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < hex.length; i += 2) {
+    bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
+  }
+  return bytes.buffer;
 };
 
 const vectorSourcePercil = new VectorSource();
 const vectorLayerPercil = new VectorLayer({
-    source: vectorSourcePercil,
-    style: getStyle,
-    zIndex: 10,
+  source: vectorSourcePercil,
+  style: getStyle,
+  zIndex: 10,
 });
 map.addLayer(vectorLayerPercil);
 
@@ -708,20 +708,20 @@ const format = new WKB();
  *          Data persil or null if failed
  */
 const getPercil = async (agama = "", tipeHak = "", searchField = "", searchValue = "") => {
-    try {
-        myAlert.show("getting", "Sedang memuat data...", 1500);
-        const response = await fetch(`action/getPercil.php?agama=${agama}&tipeHak=${tipeHak}&searchField=${searchField}&searchValue=${searchValue}`);
-        if (!response.ok) {
-            myAlert.show("error", "Gagal mengambil data", 1500);
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        myAlert.show("success", "Data persil berhasil dimuat", 1500);
-        return data;
-    } catch (error) {
-        console.error("Failed to fetch percil data:", error);
-        return null;
+  try {
+    myAlert.show("getting", "Sedang memuat data...", 1500);
+    const response = await fetch(`action/getPercil.php?agama=${agama}&tipeHak=${tipeHak}&searchField=${searchField}&searchValue=${searchValue}`);
+    if (!response.ok) {
+      myAlert.show("error", "Gagal mengambil data", 1500);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    const data = await response.json();
+    myAlert.show("success", "Data persil berhasil dimuat", 1500);
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch percil data:", error);
+    return null;
+  }
 };
 
 let blokVisibility = {};
@@ -735,75 +735,75 @@ let blokVisibility = {};
  * @param {string} [searchValue=""] - Filter berdasarkan nilai tertentu
  */
 async function loadPercilData(agama = "", tipeHak = "", searchField = "", searchValue = "") {
-    vectorSourcePercil.clear();
-    closePropertyPanel();
-    blokVisibility = {}; // reset blok toggle
+  vectorSourcePercil.clear();
+  closePropertyPanel();
+  blokVisibility = {}; // reset blok toggle
 
-    const data = await getPercil(agama, tipeHak, searchField, searchValue);
+  const data = await getPercil(agama, tipeHak, searchField, searchValue);
 
-    data.forEach((item) => {
-        try {
-            const blok = item["Blok"] || "default";
+  data.forEach((item) => {
+    try {
+      const blok = item["Blok"] || "default";
 
-            if (!(blok in blokVisibility)) {
-                blokVisibility[blok] = true;
-            }
+      if (!(blok in blokVisibility)) {
+        blokVisibility[blok] = true;
+      }
 
-            const arrayBuffer = hexToArrayBuffer(item.Geometry);
-            const feature = format.readFeature(arrayBuffer, {
-                dataProjection: "EPSG:23836",
-                featureProjection: "EPSG:3857",
-            });
-            feature.setProperties({
-                blok: item["Blok"] || "-",
-                nama_pemilik: item["Nama Pemilik"] || "-",
-                nama_wajib_pajak: item["Nama Wajib Pajak"] || "-",
-                tanggal_lahir: item["Tanggal Lahir"] || "-",
-                tanggal_lahir_wp: item["Tanggal Lahir WP"] || "-",
-                pekerjaan: item["Pekerjaan"] || "-",
-                pekerjaan_wp: item["Pekerjaan WP"] || "-",
-                agama: item["Agama"] || "-",
-                alamat: item["Alamat"] || "-",
-                alamat_wp: item["Alamat WP"] || "-",
-                "kelurahan/desa": item["Desa"] || null,
-                kecamatan: item["Kecamatan"] || null,
-                kabupaten: item["Kabupaten"] || null,
-                provinsi: item["Provinsi"] || null,
-                penggunaan: item["Penggunaan"] || "-",
-                nib: item["NIB"] || "-",
-                nik: item["NIK"] || "-",
-                nik_wp: item["NIK WP"] || "-",
-                tahun_perolehan: item["Tahun Perolehan"] || "-",
-                tanggal_berkas: item["Tanggal Berkas"] || "-",
-                tahun_sptt: item["Tahun SPPT"] || "-",
-                luas: item["Luas"] || "-",
-                tipe_hak: item["Tipe Hak"] || "-",
-                nop: item["NOP"] || "-",
-                njop: item["NJOP"] || "-",
-                bukti_perolehan: item["Buti Perolehan"],
-                dasar_perolehan: item["Dasar Perolehan"],
-            });
+      const arrayBuffer = hexToArrayBuffer(item.Geometry);
+      const feature = format.readFeature(arrayBuffer, {
+        dataProjection: "EPSG:23836",
+        featureProjection: "EPSG:3857",
+      });
+      feature.setProperties({
+        blok: item["Blok"] || "-",
+        nama_pemilik: item["Nama Pemilik"] || "-",
+        nama_wajib_pajak: item["Nama Wajib Pajak"] || "-",
+        tanggal_lahir: item["Tanggal Lahir"] || "-",
+        tanggal_lahir_wp: item["Tanggal Lahir WP"] || "-",
+        pekerjaan: item["Pekerjaan"] || "-",
+        pekerjaan_wp: item["Pekerjaan WP"] || "-",
+        agama: item["Agama"] || "-",
+        alamat: item["Alamat"] || "-",
+        alamat_wp: item["Alamat WP"] || "-",
+        "kelurahan/desa": item["Desa"] || null,
+        kecamatan: item["Kecamatan"] || null,
+        kabupaten: item["Kabupaten"] || null,
+        provinsi: item["Provinsi"] || null,
+        penggunaan: item["Penggunaan"] || "-",
+        nib: item["NIB"] || "-",
+        nik: item["NIK"] || "-",
+        nik_wp: item["NIK WP"] || "-",
+        tahun_perolehan: item["Tahun Perolehan"] || "-",
+        tanggal_berkas: item["Tanggal Berkas"] || "-",
+        tahun_sptt: item["Tahun SPPT"] || "-",
+        luas: item["Luas"] || "-",
+        tipe_hak: item["Tipe Hak"] || "-",
+        nop: item["NOP"] || "-",
+        njop: item["NJOP"] || "-",
+        bukti_perolehan: item["Buti Perolehan"],
+        dasar_perolehan: item["Dasar Perolehan"],
+      });
 
-            vectorSourcePercil.addFeature(feature);
-        } catch (error) {
-            console.error("Gagal memproses WKB:", error);
-        }
-    });
-
-    generateBlokToggle();
-
-    const features = vectorSourcePercil.getFeatures();
-    if (features.length > 0) {
-        const extent = vectorSourcePercil.getExtent();
-        map.getView().fit(extent, {
-            padding: [30, 30, 30, 30],
-            maxZoom: 18,
-            duration: 700,
-        });
-    } else {
-        myAlert.hide();
-        myAlert.show("error", "Data persil tidak ditemukan", 1500);
+      vectorSourcePercil.addFeature(feature);
+    } catch (error) {
+      console.error("Gagal memproses WKB:", error);
     }
+  });
+
+  generateBlokToggle();
+
+  const features = vectorSourcePercil.getFeatures();
+  if (features.length > 0) {
+    const extent = vectorSourcePercil.getExtent();
+    map.getView().fit(extent, {
+      padding: [30, 30, 30, 30],
+      maxZoom: 18,
+      duration: 700,
+    });
+  } else {
+    myAlert.hide();
+    myAlert.show("error", "Data persil tidak ditemukan", 1500);
+  }
 }
 
 loadPercilData();
@@ -815,36 +815,36 @@ loadPercilData();
  * that corresponds to the Blok name.
  */
 function generateBlokToggle() {
-    let html = "";
-    Object.keys(blokVisibility).forEach((blok) => {
-        html += `
+  let html = "";
+  Object.keys(blokVisibility).forEach((blok) => {
+    html += `
         <label class="p-1 block">
           <input type="checkbox" class="blok-toggle" data-blok="${blok}" checked>
           Blok ${blok}
         </label>
     `;
-    });
-    $("#layerPanelContent>div:last-child").html(html);
+  });
+  $("#layerPanelContent>div:last-child").html(html);
 }
 
 $("body").on("change", ".blok-toggle", function () {
-    const blok = $(this).data("blok");
-    blokVisibility[blok] = $(this).is(":checked");
-    // console.log("Blok", blok, "status:", blokVisibility[blok]); // cek trigger
-    vectorSourcePercil.getFeatures().forEach((f) => f.setStyle(getStyle(f)));
+  const blok = $(this).data("blok");
+  blokVisibility[blok] = $(this).is(":checked");
+  // console.log("Blok", blok, "status:", blokVisibility[blok]); // cek trigger
+  vectorSourcePercil.getFeatures().forEach((f) => f.setStyle(getStyle(f)));
 });
 
 // Apply Filter Button
 $("#applyFilterButton").click(function () {
-    const params = getFilterParams();
-    loadPercilData(params.agama, params.tipeHak, params.searchField, params.searchValue);
+  const params = getFilterParams();
+  loadPercilData(params.agama, params.tipeHak, params.searchField, params.searchValue);
 });
 
 // Search Button
 $("#searchButton").click(function () {
-    resetFilters();
-    const params = getFilterParams();
-    loadPercilData("", "", params.searchField, params.searchValue);
+  resetFilters();
+  const params = getFilterParams();
+  loadPercilData("", "", params.searchField, params.searchValue);
 });
 
 /**
@@ -858,53 +858,53 @@ $("#searchButton").click(function () {
  * @property {String} searchValue Value to search for.
  */
 function getFilterParams() {
-    $("#suggestions").hide();
-    return {
-        agama: $("#filterAgama").val(),
-        tipeHak: $("#filterTipeHak").val(),
-        searchField: $("#searchField").val(),
-        searchValue: $("#searchValue").val(),
-    };
+  $("#suggestions").hide();
+  return {
+    agama: $("#filterAgama").val(),
+    tipeHak: $("#filterTipeHak").val(),
+    searchField: $("#searchField").val(),
+    searchValue: $("#searchValue").val(),
+  };
 }
 
 /**
  * Reset all filter fields to their default values.
  */
 function resetFilters() {
-    $("#filterAgama").val("");
-    $("#filterTipeHak").val("");
+  $("#filterAgama").val("");
+  $("#filterTipeHak").val("");
 }
 
 $("#searchValue").on("input", function () {
-    const searchField = $("#searchField").val();
-    const searchValue = $(this).val();
-    if (searchValue.length < 3) {
-        $("#suggestions").hide();
-        return;
-    }
+  const searchField = $("#searchField").val();
+  const searchValue = $(this).val();
+  if (searchValue.length < 3) {
+    $("#suggestions").hide();
+    return;
+  }
 
-    $.ajax({
-        url: "action/getSuggestions.php",
-        method: "GET",
-        data: { searchField, searchValue },
-        success: function (response) {
-            const data = response;
-            let listItems = "";
-            if (data.length > 0) {
-                data.forEach((item) => {
-                    const safeItem = $("<div>").text(item).html();
-                    listItems += `<li class="px-3 py-1 cursor-pointer hover:bg-gray-100">${safeItem}</li>`;
-                });
-            } else {
-                listItems = `<li class="px-3 py-1 text-gray-400">Tidak ditemukan</li>`;
-            }
-            $("#suggestions").html(listItems).show();
-        },
-    });
+  $.ajax({
+    url: "action/getSuggestions.php",
+    method: "GET",
+    data: { searchField, searchValue },
+    success: function (response) {
+      const data = response;
+      let listItems = "";
+      if (data.length > 0) {
+        data.forEach((item) => {
+          const safeItem = $("<div>").text(item).html();
+          listItems += `<li class="px-3 py-1 cursor-pointer hover:bg-gray-100">${safeItem}</li>`;
+        });
+      } else {
+        listItems = `<li class="px-3 py-1 text-gray-400">Tidak ditemukan</li>`;
+      }
+      $("#suggestions").html(listItems).show();
+    },
+  });
 });
 
 $(document).on("click", "#suggestions li", function () {
-    $("#searchValue").val($(this).text());
-    $("#searchButton").trigger("click");
-    $("#suggestions").hide();
+  $("#searchValue").val($(this).text());
+  $("#searchButton").trigger("click");
+  $("#suggestions").hide();
 });

@@ -3,14 +3,14 @@
 // Ganti nilai-nilai ini dengan informasi database Anda.
 $host = 'localhost'; // atau alamat IP server PostgreSQL Anda
 $port = '5432'; // port default untuk PostgreSQL
-$dbname = 'project1'; // nama database Anda
+$dbname = 'kedaton-percil'; // nama database Anda
 $user = 'postgres'; // username untuk mengakses database
 $password = 'root'; // password untuk username tersebut
 
 // --- 2. Membuat String Koneksi ---
 // String ini akan digunakan oleh pg_connect().
 $conn_string = "host={$host} port={$port} dbname={$dbname} user={$user} password={$password}";
-// $conn_string = "postgresql://postgres.oajlqvypzeshwdhbtqom:svSD72zFdjWSxZod@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres";
+// $conn_string = "postgresql://postgres.oajlqvypdhbtqom:svSD72WSxZod@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres";
 
 // --- 3. Melakukan Koneksi ---
 // Menggunakan @ untuk menekan pesan error default dari PHP,
