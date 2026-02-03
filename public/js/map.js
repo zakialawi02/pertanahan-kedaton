@@ -892,7 +892,7 @@ $("#searchValue").on("input", function () {
       let listItems = "";
       if (data.length > 0) {
         data.forEach((item) => {
-          const safeItem = $("<div>").text(item).html();
+          const safeItem = $("<div>").text(item.result).html();
           listItems += `<li class="px-3 py-1 cursor-pointer hover:bg-gray-100">${safeItem}</li>`;
         });
       } else {
