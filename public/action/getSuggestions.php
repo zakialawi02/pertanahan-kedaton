@@ -36,12 +36,26 @@ if ($searchField && $searchValue) {
         LIMIT 10
     ";
 
+        $startTime = microtime(true);
         $result = pg_query($dbconn, $query);
-        $suggestions = [];
-
-        while ($row = pg_fetch_assoc($result)) {
-            $suggestions[] = $row['result'];
+        if ($result === false) {
+            error_log('getSuggestions.php query failed: ' . pg_last_error($dbconn));
+            http_response_code(500);
+            echo json_encode(['error' => 'Internal server error']);
+            pg_close($dbconn);
+            exit;
         }
+        $rows = pg_fetch_all($result, PGSQL_ASSOC);
+        if ($rows === false) {
+            $rows = [];
+        }
+        $executionTimeMs = (microtime(true) - $startTime) * 1000;
+        $suggestions = array_map(function ($row) use ($executionTimeMs) {
+            return [
+                'result' => $row['result'],
+                'execution_time_ms' => $executionTimeMs,
+            ];
+        }, $rows);
 
         header('Content-Type: application/json');
         echo json_encode($suggestions, JSON_PRETTY_PRINT);
