@@ -38,9 +38,16 @@ if ($searchField && $searchValue) {
 
         $startTime = microtime(true);
         $result = pg_query($dbconn, $query);
-        $rows = [];
-        if (pg_num_rows($result) > 0) {
-            $rows = pg_fetch_all($result, PGSQL_ASSOC);
+        if ($result === false) {
+            error_log('getSuggestions.php query failed: ' . pg_last_error($dbconn));
+            http_response_code(500);
+            echo json_encode(['error' => 'Internal server error']);
+            pg_close($dbconn);
+            exit;
+        }
+        $rows = pg_fetch_all($result, PGSQL_ASSOC);
+        if ($rows === false) {
+            $rows = [];
         }
         $executionTimeMs = (microtime(true) - $startTime) * 1000;
         $suggestions = [];
