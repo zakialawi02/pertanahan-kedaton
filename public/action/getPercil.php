@@ -120,12 +120,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     ';
 
     // Eksekusi query
+    $startTime = microtime(true);
     $result = pg_query($dbconn, $query);
+    $executionTimeMs = (microtime(true) - $startTime) * 1000;
 
     $resultDB = [];
 
     if (pg_num_rows($result) > 0) {
         while ($row = pg_fetch_assoc($result)) {
+            $row['execution_time_ms'] = $executionTimeMs;
             $resultDB[] = $row;
         }
     }

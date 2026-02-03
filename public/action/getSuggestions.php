@@ -36,11 +36,16 @@ if ($searchField && $searchValue) {
         LIMIT 10
     ";
 
+        $startTime = microtime(true);
         $result = pg_query($dbconn, $query);
+        $executionTimeMs = (microtime(true) - $startTime) * 1000;
         $suggestions = [];
 
         while ($row = pg_fetch_assoc($result)) {
-            $suggestions[] = $row['result'];
+            $suggestions[] = [
+                'result' => $row['result'],
+                'execution_time_ms' => $executionTimeMs,
+            ];
         }
 
         header('Content-Type: application/json');
