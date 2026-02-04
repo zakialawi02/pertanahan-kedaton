@@ -135,6 +135,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
     $executionTimeMs = (microtime(true) - $startTime) * 1000;
 
+    $resultDB = array_map(function ($row) use ($executionTimeMs) {
+        $row['execution_time_ms'] = $executionTimeMs;
+        return $row;
+    }, $rows);
+
     // Contoh output hasilnya
     header('Content-Type: application/json');
     echo json_encode([
