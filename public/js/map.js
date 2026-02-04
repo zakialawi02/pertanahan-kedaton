@@ -572,12 +572,6 @@ function eventClickMap(evt) {
                 </tr>
                 <tr class="border-b">
                     <th class="px-2 border py-1 text-left bg-base-100 uppercase">
-                    Tahun SPT
-                    </th>
-                    <td class="px-2 py-1">${props?.tahun_spt ?? "-"}</td>
-                </tr>
-                <tr class="border-b">
-                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
                     Tanggal Berkas
                     </th>
                     <td class="px-2 py-1">${props?.tanggal_berkas ?? "-"}</td>
@@ -660,6 +654,12 @@ function eventClickMap(evt) {
                     Pekerjaan Wajib Pajak
                     </th>
                     <td class="px-2 py-1">${props?.pekerjaan_wp ?? "-"}</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="px-2 border py-1 text-left bg-base-100 uppercase">
+                    Tahun SPT
+                    </th>
+                    <td class="px-2 py-1">${props?.tahun_spt ?? "-"}</td>
                 </tr>
                 </tbody>
             </table>

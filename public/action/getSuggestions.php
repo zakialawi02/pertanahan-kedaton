@@ -53,7 +53,6 @@ if ($searchField && $searchValue) {
         $suggestions = array_map(function ($row) use ($executionTimeMs) {
             return [
                 'result' => $row['result'],
-                'execution_time_ms' => $executionTimeMs,
             ];
         }, $rows);
 
