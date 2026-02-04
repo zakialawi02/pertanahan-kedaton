@@ -50,9 +50,7 @@ if ($searchField && $searchValue) {
             $rows = [];
         }
         $executionTimeMs = (microtime(true) - $startTime) * 1000;
-        $suggestions = array_map(function ($row) {
-            return $row['result'];
-        }, $rows);
+        $suggestions = array_column($rows, 'result');
 
         header('Content-Type: application/json');
         echo json_encode([
