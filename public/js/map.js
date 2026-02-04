@@ -715,9 +715,9 @@ const getPercil = async (agama = "", tipeHak = "", searchField = "", searchValue
       myAlert.show("error", "Gagal mengambil data", 1500);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data = await response.json();
+    const payload = await response.json();
     myAlert.show("success", "Data persil berhasil dimuat", 1500);
-    return data;
+    return payload?.records || [];
   } catch (error) {
     console.error("Failed to fetch percil data:", error);
     return null;
@@ -740,6 +740,9 @@ async function loadPercilData(agama = "", tipeHak = "", searchField = "", search
   blokVisibility = {}; // reset blok toggle
 
   const data = await getPercil(agama, tipeHak, searchField, searchValue);
+  if (!data) {
+    return;
+  }
 
   data.forEach((item) => {
     try {
@@ -888,7 +891,7 @@ $("#searchValue").on("input", function () {
     method: "GET",
     data: { searchField, searchValue },
     success: function (response) {
-      const data = response;
+      const data = response?.suggestions || [];
       let listItems = "";
       if (data.length > 0) {
         data.forEach((item) => {

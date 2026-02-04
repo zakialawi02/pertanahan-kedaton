@@ -142,7 +142,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     // Contoh output hasilnya
     header('Content-Type: application/json');
-    echo json_encode($resultDB, JSON_PRETTY_PRINT);
+    echo json_encode([
+        'execution_time_ms' => $executionTimeMs,
+        'records' => $rows,
+    ], JSON_PRETTY_PRINT);
 
     // Tutup koneksi
     pg_close($dbconn);

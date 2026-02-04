@@ -58,7 +58,10 @@ if ($searchField && $searchValue) {
         }, $rows);
 
         header('Content-Type: application/json');
-        echo json_encode($suggestions, JSON_PRETTY_PRINT);
+        echo json_encode([
+            'execution_time_ms' => $executionTimeMs,
+            'suggestions' => $suggestions,
+        ], JSON_PRETTY_PRINT);
     }
 }
 
