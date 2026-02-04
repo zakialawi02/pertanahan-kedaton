@@ -120,19 +120,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     ';
 
     // Eksekusi query
+    $startTime = microtime(true);
     $result = pg_query($dbconn, $query);
-
-    $resultDB = [];
-
-    if (pg_num_rows($result) > 0) {
-        while ($row = pg_fetch_assoc($result)) {
-            $resultDB[] = $row;
-        }
+    if ($result === false) {
+        error_log('getPercil.php query failed: ' . pg_last_error($dbconn));
+        http_response_code(500);
+        echo json_encode(['error' => 'Internal server error']);
+        pg_close($dbconn);
+        exit;
     }
+    $rows = pg_fetch_all($result, PGSQL_ASSOC);
+    if ($rows === false) {
+        $rows = [];
+    }
+    $executionTimeMs = (microtime(true) - $startTime) * 1000;
+
+    $resultDB = $rows;
 
     // Contoh output hasilnya
     header('Content-Type: application/json');
-    echo json_encode($resultDB, JSON_PRETTY_PRINT);
+    echo json_encode([
+        'execution_time_ms' => $executionTimeMs,
+        'records' => $resultDB,
+    ], JSON_PRETTY_PRINT);
 
     // Tutup koneksi
     pg_close($dbconn);
