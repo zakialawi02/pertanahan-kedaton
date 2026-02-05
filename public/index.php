@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <a class="rounded-md bg-primary px-3 py-2 font-semibold text-white shadow-sm hover:bg-primary/75 transition"
+                    <a class="rounded-md bg-primary px-2.5 py-1.5 font-semibold text-white shadow-sm hover:bg-primary/75 transition"
                         href="https://s.id/testkedaton"
                         target="_blank">
                         Uji Usability
