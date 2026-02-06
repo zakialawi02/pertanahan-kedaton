@@ -92,9 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             DasarPerolehan."Nama_DasarPerolehan" AS "Dasar Perolehan",
             BuktiPerolehan."Nama_BuktiPerolehan" AS "Bukti Perolehan",
             PemilikTanah."Tanggal Berkas",
-            Desa."Nama_Desa" AS "Desa",
             BidangTanah."Luas",
-            Geometry."Geometry"
+            Geometry."Geometry",
+            Desa."Nama_Desa" AS "Desa",
+            Provinsi."Nama_Provinsi" AS "Provinsi",
+            Kabupaten."Nama_Kabupaten" AS "Kabupaten",
+            Kecamatan."Nama_Kecamatan" AS "Kecamatan"
         FROM
             "Provinsi" Provinsi
         LEFT JOIN "Kabupaten" Kabupaten ON Provinsi."Id_Provinsi" = Kabupaten."Id_Provinsi"
@@ -118,6 +121,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         ' . $blokFilter . $agamaFilter . $tipeHakFilter . $searchQuery . '
         ORDER BY BidangTanah."Id_Bidang" ASC
     ';
+
+    // --- MODE EXPLAIN (untuk uji kecepatan murni di DB) ---
+    if (isset($_GET['bench'])) {
+        $n = (int)$_GET['bench'];
+        if ($n <= 0) $n = 10;
+        if ($n > 200) $n = 200; // safety
+
+        $holdMs = 100;
+
+        $mode = $_GET['mode'] ?? 'explain'; // 'explain' atau 'select'
+
+        $times = [];
+        $errors = [];
+
+        for ($i = 0; $i < $n; $i++) {
+            $t0 = microtime(true);
+
+            if ($mode === 'select') {
+                $res = pg_query($dbconn, $query);
+                if ($res === false) {
+                    $errors[] = pg_last_error($dbconn);
+                    break;
+                }
+                // Kalau benar-benar mau ukur query+fetch:
+                $rows = pg_fetch_all($res); // hati-hati memory kalau besar
+            } else {
+                $sqlNoSemicolon = rtrim(trim($query), " \t\n\r\0\x0B;");
+                $explainSql = 'EXPLAIN (ANALYZE, BUFFERS, VERBOSE, FORMAT TEXT) ' . $sqlNoSemicolon;
+
+                $res = pg_query($dbconn, $explainSql);
+                if ($res === false) {
+                    $errors[] = pg_last_error($dbconn);
+                    break;
+                }
+                // fetch plan text
+                $planRows = pg_fetch_all($res) ?: [];
+                // optional: parse Execution Time dari plan
+            }
+
+            $t1 = microtime(true);
+            $times[] = ($t1 - $t0) * 1000.0;
+
+            // HOLD TIME sebelum query berikutnya
+            usleep($holdMs * 1000);
+        }
+
+        // summary
+        sort($times);
+        $count = count($times);
+        $avg = $count ? array_sum($times) / $count : 0;
+
+        $p50 = $count ? $times[(int)floor(0.50 * ($count - 1))] : 0;
+        $p95 = $count ? $times[(int)floor(0.95 * ($count - 1))] : 0;
+        $min = $count ? $times[0] : 0;
+        $max = $count ? $times[$count - 1] : 0;
+
+        header('Content-Type: application/json');
+        echo json_encode([
+            "meta" => [
+                "runs" => $n,
+                "mode" => $mode,
+                "avg_ms" => round($avg, 3),
+                "p50_ms" => round($p50, 3),
+                "p95_ms" => round($p95, 3),
+                "min_ms" => round($min, 3),
+                "max_ms" => round($max, 3),
+                "errors" => $errors,
+            ],
+            "runs_ms" => array_map(fn($x) => round($x, 3), $times),
+        ]);
+        pg_close($dbconn);
+        exit;
+    }
+
+    // --- END MODE EXPLAIN ---
+
 
     // Eksekusi query
     $startTime = microtime(true);

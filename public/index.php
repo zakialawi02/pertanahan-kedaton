@@ -31,8 +31,8 @@
                         <span class="sr-only">Logo</span>
                         <img src="./img/logo.webp" class="h-auto max-h-12 w-auto max-w-12" alt="Logo">
                         <div class="ml-2">
-                            <span class="font-bold uppercase text-2xl block">SIGAP</span>
-                            <span class="text-xs block">Sistem Informasi Geospasial Aset Tanah dan Pajak</span>
+                            <span class="font-bold uppercase text-2xl block">SIGAP-HAPAT</span>
+                            <span class="text-xs block">Sistem Informasi Geospasial Hak dan Pajak Atas Tanah</span>
                         </div>
                     </a>
 
@@ -225,12 +225,17 @@
             <button
                 class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-blue-500 text-white focus:outline-none"
                 data-target="#tab-percil">
-                Data Pemilik
+                Data Hak
             </button>
             <button
                 class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 focus:outline-none"
                 data-target="#tab-wp">
                 Data Wajib Pajak
+            </button>
+            <button
+                class="tab-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 focus:outline-none"
+                data-target="#tab-lokasi">
+                Lokasi
             </button>
         </div>
         <div id="propertyPanelContent" class="max-h-[22rem] overflow-y-auto p-4 text-sm text-gray-700 space-y-2">
@@ -245,6 +250,12 @@
             </div>
 
             <div id="tab-wp" class="tab-content hidden">
+                <div class="">
+                    <p>Memuat data...</p>
+                </div>
+            </div>
+
+            <div id="tab-lokasi" class="tab-content hidden">
                 <div class="">
                     <p>Memuat data...</p>
                 </div>
