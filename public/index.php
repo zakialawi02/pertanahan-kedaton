@@ -265,6 +265,109 @@
     </div>
 
 
+
+    <!-- Welcome Modal -->
+    <div id="welcomeModal" class="fixed inset-0 z-[100] items-center justify-center bg-black/60 hidden opacity-0 transition-opacity duration-500 p-4">
+        <div class="relative w-full max-w-lg bg-white rounded-xl shadow-2xl transform scale-95 transition-transform duration-500 opacity-0 max-h-[90vh] overflow-y-auto flex flex-col" id="welcomeContent">
+
+            <!-- Header -->
+            <div class="relative bg-primary px-5 py-4 shrink-0">
+                <div class="relative z-10 text-center text-white">
+                    <h2 class="text-xl md:text-2xl font-bold mb-0.5 tracking-tight">SIGAP – HAPAT</h2>
+                    <p class="text-white/90 text-xs md:text-sm font-medium">(Sistem Informasi Geospasial Hak & Pajak Atas Tanah)</p>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="p-5 md:p-6 overflow-y-auto">
+                <div class="text-center mb-4 md:mb-5">
+                    <h3 class="text-base md:text-lg font-bold text-gray-800 leading-snug">
+                        “Transformasi dan Integrasi Digital <br class="hidden md:block" />
+                        Pengelolaan Data Pertanahan Hak dan Pajak Atas Tanah"
+                    </h3>
+                    <div class="h-1 w-16 bg-primary/30 mx-auto mt-3 rounded-full"></div>
+                </div>
+
+                <div class="space-y-3 text-gray-600 text-xs md:text-sm text-justify md:text-center leading-relaxed">
+                    <p>
+                        Selamat datang di platform terintegrasi untuk Sistem Informasi
+                        yang menyatukan kepastian Hak Atas Tanah dengan akurasi Pajak Atas Tanah.
+                    </p>
+                    <p>
+                        Kami hadir untuk menghilangkan sekat antara data legalitas hak dan data fiskal atas tanah, mewujudkan pengelolaan data pertanahan yang lebih transparan, akuntabel, dan presisi dalam satu peta digital.
+                    </p>
+                </div>
+
+                <div class="mt-5 p-3.5 bg-gray-50 border border-gray-100 rounded-lg text-center">
+                    <p class="text-gray-700 text-xs md:text-sm font-medium">
+                        Untuk memudahkan dalam monitoring, pengelolaan, dan validasi aset tanah
+                        serta kewajiban pajak berbasis peta digital.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-5 py-4 bg-gray-50 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-3 shrink-0 rounded-b-xl">
+                <label class="flex items-center space-x-2 cursor-pointer group select-none">
+                    <input type="checkbox" id="dontShowAgain" class="checkbox checkbox-primary checkbox-xs md:checkbox-sm rounded">
+                    <span class="text-xs text-gray-500 group-hover:text-gray-700 transition-colors">Jangan tampilkan lagi selama 7 hari</span>
+                </label>
+
+                <button id="closeWelcomeBtn" class="w-full md:w-auto px-6 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-semibold rounded-lg shadow-md transition-all duration-200 hover:-translate-y-0.5 active:scale-95">
+                    Mulai Jelajahi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Modal Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('welcomeModal');
+            const content = document.getElementById('welcomeContent');
+            const closeBtn = document.getElementById('closeWelcomeBtn');
+            const checkbox = document.getElementById('dontShowAgain');
+
+            // Key for localStorage
+            const STORAGE_KEY = 'sigap_welcome_hide_until';
+
+            // Check if should show
+            const dismissedUntil = localStorage.getItem(STORAGE_KEY);
+            const now = new Date().getTime();
+
+            if (!dismissedUntil || now > parseInt(dismissedUntil)) {
+                // Show modal
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+
+                // Small delay to allow display:flex to apply before opacity transition
+                requestAnimationFrame(() => {
+                    modal.classList.remove('opacity-0');
+                    content.classList.remove('opacity-0', 'scale-95');
+                    content.classList.add('scale-100');
+                });
+            }
+
+            closeBtn.addEventListener('click', () => {
+                if (checkbox.checked) {
+                    const days = 7;
+                    const expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
+                    localStorage.setItem(STORAGE_KEY, expiry);
+                }
+
+                // Animate out
+                modal.classList.add('opacity-0');
+                content.classList.remove('scale-100');
+                content.classList.add('scale-95');
+
+                setTimeout(() => {
+                    modal.classList.remove('flex');
+                    modal.classList.add('hidden');
+                }, 500);
+            });
+        });
+    </script>
+
     <script src=" https://cdn.jsdelivr.net/npm/ol@v10.5.0/dist/ol.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
